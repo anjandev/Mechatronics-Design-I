@@ -1,4 +1,3 @@
-// HELLO WORLD
 #pragma config(Sensor, S1,     lightSensor,    sensorEV3_Color)
 #pragma config(Motor,  motorA,          rightDriveMotor, tmotorEV3_Large, PIDControl, driveRight, encoder)
 #pragma config(Motor,  motorB,          leftDriveMotor, tmotorEV3_Large, PIDControl, driveLeft, encoder)
@@ -20,7 +19,7 @@ task main()
 		setMotorSpeed(leftDriveMotor, leftMotorSpeed);
 
 		float rightMotorSpeed;
-  	rightMotorSpeed = -(baseSpeed + SLOPE*(currentLight));
+  	    rightMotorSpeed = -(baseSpeed + SLOPE*(currentLight));
 		setMotorSpeed(rightDriveMotor, rightMotorSpeed);
 	}
 }
