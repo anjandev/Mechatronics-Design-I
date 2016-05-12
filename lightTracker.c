@@ -17,11 +17,11 @@
 
 #define SLOPE 0.5
 #define baseSpeed -30
-#define True 1
+// #define True 1
 
 task main()
 {
-	while(True){ //Try while(1==1) to shorten the line
+	while(true){ 
 		float currentLight = SensorValue[lightSensor];
 		// fully black 3
 		// half black 17
