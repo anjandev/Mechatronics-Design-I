@@ -21,7 +21,7 @@
 
 task main()
 {
-	while(true){ 
+	while(1){ 
 		float currentLight = SensorValue[lightSensor];
 		// fully black 3
 		// half black 17
