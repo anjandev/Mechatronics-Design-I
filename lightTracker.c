@@ -13,7 +13,6 @@
 #define TURN_SPEED 27
 #define BASE_SPEED 5
 #define DELAY_TIME 80
-#define BEEP_WHEN_OBJ_THIS_DIS 8
 #define SENSOR_VAL_ON_EDGE 111
 
 task main()
@@ -26,10 +25,14 @@ task main()
 	int soundPlayed = 0;
 	int turnArm = 0;
 	int countForArmBack = 0;
+	float const BEEP_WHEN_OBJ_THIS_DIS = 10;
+	int const DELAY_TIME_AFTER_BEEP = (700 / 160);
+	int const TURNING_DEGREE = 130;
 
 	while(true){
+		float test = SensorValue[S2]; //if we use sensor value for sonic, it reads in mm
 
-		if(getUSDistance(sonic) < BEEP_WHEN_OBJ_THIS_DIS && soundPlayed == 0){
+		if(SensorValue[sonic] / 10 < BEEP_WHEN_OBJ_THIS_DIS && soundPlayed == 0){
 			playTone(FREQUENCY, MIL_IN_SEC / LENGTH_OF_TICK);
 			soundPlayed = 1;
 			turnArm = 1;
@@ -64,14 +67,14 @@ task main()
 		}
 
 		if(turnArm){
-			moveMotorTarget(armMotor, 130, 60);
+			moveMotorTarget(armMotor, TURNING_DEGREE, 60);
 			turnArm = 0;
 		}
 		if(soundPlayed){
 			countForArmBack++;
 		}
-		if(countForArmBack == 500 / 160 && soundPlayed == 1){
-			moveMotorTarget(armMotor, 130, -30);
+		if(countForArmBack == DELAY_TIME_AFTER_BEEP && soundPlayed == 1){
+			moveMotorTarget(armMotor, TURNING_DEGREE, -30);
 			soundPlayed = 0;
 			countForArmBack = 0;
 		}
