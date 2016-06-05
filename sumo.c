@@ -28,7 +28,7 @@ void rotateLeftOutside(float fraction){
 	// inside pivot is right
 	moveMotorTarget(rightDrive, ROTATION * fraction, FORWARDS);
 	moveMotorTarget(leftDrive, ROTATION * fraction, BACKWARDS);
-    while(checkWhite() != WHITE && !backOff() && waitUntilMotorStop(rightDrive)){
+    while(checkWhite() != WHITE && !backOff() && getMotorSpeed(rightDrive) > 0){
 
     }
 }
@@ -37,7 +37,7 @@ void rotateRightOutside(float fraction){
 	// inside pivot is left
 	moveMotorTarget(rightDrive, ROTATION * fraction, FORWARDS);
 	moveMotorTarget(leftDrive, ROTATION * fraction, BACKWARDS);
-    while(checkWhite() != WHITE && !backOff() && waitUntilMotorStop(rightDrive)){
+    while(checkWhite() != WHITE && !backOff() && getMotorSpeed(rightDrive) > 0){
 
     }
 }
@@ -95,11 +95,9 @@ void getBackOn(){
 
 void charge(){
 
-    motor[leftDrive] = 100;
-    motor[rightDrive] = 100;
-    
     while(botInFront() && checkWhite() != WHITE && !backOff()){
-
+        motor[leftDrive] = 100;
+        motor[rightDrive] = 100;
     }
 }
 
@@ -132,6 +130,9 @@ task main()
 	clearTimer(T1);
 
 	while(1){
+        motor[leftDrive] = 100;
+        motor[rightDrive] = 100;
+
         getOffWhite();
         getBackOn();
 
@@ -155,10 +156,6 @@ task main()
         }
 
         charge();
-
-        getOffWhite();
-        getBackOn();
-
 	}
 
 }
