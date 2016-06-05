@@ -26,9 +26,9 @@ int const DIST_TO_CHARGE_CM = 5;
 
 void rotateLeftOutside(float fraction){
 	// inside pivot is right
-	moveMotorTarget(rightDrive, ROTATION * fraction, FORWARDS);
-	moveMotorTarget(leftDrive, ROTATION * fraction, BACKWARDS);
-    while(checkWhite() != WHITE && !backOff() && getMotorSpeed(rightDrive) > 0){
+	moveMotorTarget(rightDrive, ROTATION * fraction, BACKWARDS);
+	moveMotorTarget(leftDrive, ROTATION * fraction, FORWARDS);
+    while(checkWhite() != WHITE && !backOff() && getMotorSpeed(leftDrive) > 0){
 
     }
 }
