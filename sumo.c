@@ -23,7 +23,7 @@ int const DIST_TO_CHARGE_CM = 30;
 #define BACKOFF 0
 #define BACKON 1
 
-int const FRAC_TO_ROT_360 = 19;
+int const FRAC_TO_ROT_360 = 17;
 int const FRAC_TO_ROT_90 = FRAC_TO_ROT_360 / 4;
 int const SEC_TO_TRY_GOING_FROM_LINE = 2;
 int const BEGIN_DEG_BACK_LINE = 1000;
@@ -95,7 +95,7 @@ void getOffWhite(){
         rotateLeftOutside(FRAC_TO_ROT_90);
         motor[leftDrive] = FORWARDS;
         motor[rightDrive] = FORWARDS;
-       
+
     }
 }
 
@@ -109,7 +109,7 @@ void getBackOn(){
         rotateRightOutside(FRAC_TO_ROT_90);
         motor[leftDrive] = FORWARDS;
         motor[rightDrive] = FORWARDS;
-    	
+
     }
 }
 
@@ -122,12 +122,12 @@ void beginningTurn(){
 	displayCenteredTextLine(4, "Beggining turn");
 	moveMotorTarget(leftDrive, BEGIN_DEG_BACK_LINE, BACKWARDS);
 	moveMotorTarget(rightDrive, BEGIN_DEG_BACK_LINE, BACKWARDS);
-	
+
 	waitUntilMotorStop(leftDrive);
-	
+
 	moveMotorTarget(rightDrive, ROTATION * HALF_ROT_FRAC, BACKWARDS);
 	moveMotorTarget(leftDrive, ROTATION * HALF_ROT_FRAC, FORWARDS);
-	
+
 	repeatUntil(getMotorMoving(leftDrive) == 0 || backOff() || checkWhite() == WHITE){
 
 	}
@@ -139,7 +139,7 @@ void beginningTurn(){
 
 
 void charge(){
-	
+
     while(botInFront() && checkWhite() != WHITE && !backOff()){
     	displayCenteredTextLine(4, "CHARGED");
         motor[leftDrive] = FORWARDS;
@@ -168,7 +168,7 @@ task main()
 	clearTimer(T1);
 
 	while(1){
-		
+
         motor[leftDrive] = FORWARDS;
         motor[rightDrive] = FORWARDS;
 
@@ -179,7 +179,7 @@ task main()
 
         getOffWhite();
         getBackOn();
-        
+
         if(time1[T1] > TIME_TIL_ROT_CHECK * SEC_TO_MILLI){
             clearTimer(T1);
             displayCenteredTextLine(4, "TIMING");
@@ -192,10 +192,10 @@ task main()
             }
             clearTimer(T1);
         }
-        
+
         getOffWhite();
         getBackOn();
-        
+
         charge();
 	}
 
