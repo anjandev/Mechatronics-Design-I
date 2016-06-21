@@ -1,7 +1,7 @@
 clc
 clear all
 close all
-%Inverse Kinematics of 2 DOF
+%Fwd Kinematics of 1 DOF
 %Given
 L1 = 10e-2; %m
 L2 = 10e-2;
@@ -22,14 +22,14 @@ for x = -13e-2:10e-4:13e-2
     LineYCood1= [0 y1];
     
     %theta2 = 30;
-    x2= L2 * cosd(theta2);
-    y2= L2 * sind(theta2);
+    x2= L2 * cosd(theta2 + theta1);
+    y2= L2 * sind(theta2 + theta1);
 
     %LineXCood2= [x1 L1*cosd(theta1)+L2*cosd(theta2)];
     %LineYCood2= [y1 L1*sind(theta1)+L2*sind(theta2)];
 
-    LineXCood2= [x1 x];
-    LineYCood2= [y1 y];
+    LineXCood2= [x1 x1+x2];
+    LineYCood2= [y1 y1+y2];
     
     line(LineXCood1,LineYCood1,'LineWidth',3)
     hold on
@@ -41,5 +41,6 @@ for x = -13e-2:10e-4:13e-2
     pause(0.1)
     clf
  
+    
     
 end
