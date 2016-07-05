@@ -9,12 +9,12 @@ SAMPLING_TIME=30e-3;
 DATA_COLUMN = 1;
 
 % For moving average
-WINDOW_SIZE = 30;
+WINDOW_SIZE = 22;
 
 % For find peaks
-MinPeakDistance = 12;
-MinPeakHeight = 0.5;
-IGNORE_FIRST = 184;
+MinPeakDistance = 40;
+MinPeakHeight = 0.8;
+IGNORE_FIRST = 8;
 
 %% Parsing Data
 
@@ -80,7 +80,8 @@ plot(timePks,pks,'or') %o is circle, r is red % show peaks
 
 %% Wide and narrow finder
 
-averageWidth = (max(widths) + min(widths)) / 2;
+averageWidth = ((max(widths) + min(widths)) / 2)-10;
+%averageWidth = 180;
 wideOrNarrow = [];
 
 for i=1:length(widths)
