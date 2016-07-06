@@ -1,0 +1,18 @@
+Project 1 - Line tracking robot
+
+Moving robot that follows the line
+
+Method 1
+- Sensor the line between the line and the field
+
+Method 2
+- Sensor the field (tracking the edge of the line)
+
+
+
+Function 
+    m = +/- 0.8
+    b = +/- 25
+
+    fully black = reading 3
+    fully bright = reading 24
