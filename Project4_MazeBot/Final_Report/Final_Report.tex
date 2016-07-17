@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage[margin=0.7in]{geometry}
+\newcommand{\ts}{\textsuperscript}
 %Gummi|065|=)
 \date{}
 
@@ -14,13 +15,12 @@
 %	include a link to the project demonstration video (Maybe use youtube or google drive
 
 %% Structure of the report (Refer to the document 'Final Project Report Instruction.pdf')
-%	Progerss section
+%	Progress section
 %	Mechanical Design
 %	Software Design 
 
 %%%%% Please Check this section %%%%%
-\title{Table of Contents (I dont know how to name this thanks anj)}
-\author{Do we need to add one?}
+\title{Table of Contents}
 \begin{document}
 
 \maketitle
@@ -30,33 +30,63 @@
 \newpage
 
 
-\section{Progress Section of MazeBot}
+\section{Progress Report}
+\subsection*{1\ts{st} Iteration}
 
-We need to summarize our activities throughout the project
+Should be achieved by:
+
+
 
 \newpage
 
 \section{Mechanical Design of MazeBot}
 
 \subsection{First Iteration}
-
-I think we gotta explain how we divided the task into smaller steps?
-
-\subsection{Mechanical Drawing}
-
-I will make one online? or something like that want it professional right
-
-\subsection{Observations \& Measurements}
-
-Maybe Use table to show all the measurements of the bot such as wheel radius, size of each cell of the maze
-
-\subsection{Conclusion}
-
-Show the final design of the Mazebot
+\textbf{Goals:}
+\begin{itemize}
+\item Accurate movement
+\end{itemize}
+\underline{\textbf{Mechanical Drawing}}\\
+XOURNAL LOL\\\\
+\underline{\textbf{Observations \& Measurements}}\\\\
+\textbf{Structural Integrity of the Drive System}\\
+In order for more accurate movement, we added a high gear ratio. However, since we added the high gear ratio, we are unable to find space to properly secure the left and right drive wheels. When testing, we found one wheel to slipped forward and the other to slipped back when turning which defeats the accuracy of the encoder. Because of this, we are unable to meet our goal of accurate movement.\\\\
+\textbf{Robot is too large.}\\
+Since the brick is upright, it is top heavy. We needed two rods in the back and one metal ball in the front in order to balance the robot. The additions of the two rods and one metal ball remove the spacial advantage of having the robot's brick be upright. Even though the dimensions of the robot are within the size of one square, it leaves very little room for error. As such, the robot begins to run into walls after the 3\ts{rd} turn.
+%SHOW DIMENSIONS AND DRIVE SYSTEM% 
+%IDK WHAT TABLES%
+\\\\
+\underline{\textbf{Conclusion}}\\
+In conclusion, we have decided for our next iteration to have the robot's brick be flat on the ground in order to ensure that we have enough room to properly secure our drive system. By properly securing the drive system we hope to not have to readjust every time we enter a cell.
 
 \newpage
 
 \section{Software Design of MazeBot}
+Our main goal with the software of the mazebot was to create program solved the problem simply and was easy to build upon. Furthermore, we wanted our software to have very few constants that we would need to tested for. For example, in order to move forward one cell, we would need to give the following function the degrees to move each of our drive motors:
+\begin{verbatim}
+setMotorTarget(leftMotor, degrees, 75);
+\end{verbatim}
+The degrees needed to move one cell forward could be achieved by constantly testing different values of degrees to achieve the movement to the new cell. However, we chose to calculate the exact degrees that the robot's drive motors would need to move in order to move exactly one cell forward. This approach in contrast to the former has two advantages: 
+\begin{enumerate}
+\item It allows us to isolate any problems with moving accurately to a mechanical problem.
+\item We would not have an accumulation of error because of us testing incorrectly.
+\end{enumerate}
+Therefore, we chose to mathematically calculate the degrees that we needed to move the motors rather than testing.\\\\
+A sketch of the derivation of how many degrees to move forward is shown below: %ADD SKETCH HERE% 
+\\
+Therefore:
+\begin{verbatim}
+degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_ROTATION
+\end{verbatim}
+A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
+
+
+\subsection{void goFwdCell()}
+
+your
+code
+example
+
 
 Briefly explain the algorithm of the maze bot 
 
