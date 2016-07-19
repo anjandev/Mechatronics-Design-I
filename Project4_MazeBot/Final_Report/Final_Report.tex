@@ -31,7 +31,13 @@
 
 
 \section{Progress Report}
-\subsection*{1\ts{st} Iteration}
+\subsection{1\ts{st} Iteration}
+
+Should be achieved by:
+\subsection{2\ts{nd} Iteration}
+
+Should be achieved by:
+\subsection{3\ts{rd} Iteration}
 
 Should be achieved by:
 
@@ -80,7 +86,35 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \end{verbatim}
 A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
-\subsection{Name of Parameters}
+\subsection{Variables Used for Representation of Directions}
+\begin{itemize}
+\item The four integer values that represent each direction were declared as a variable 
+\begin{verbatim}
+#define NORTH 0
+#define EAST 1
+#define SOUTH 2
+#define WEST 3
+\end{verbatim}
+\item Structure name cell was declared and it has five parameters: North wall, South wall, East wall, West wall, and Visited (used to tell if the robot has visited the cell or not)
+\begin{verbatim}
+typedef struct{
+	int NWall;
+	int SWall;
+	int EWall;
+	int WWall;
+	char Visited;
+}cell;
+\end{verbatim}
+\item 
+\end{itemize}
+
+\subsection{Variables Used for Moving Mechanism - Going Forward}
+Because of the uncertainties caused by each motor, the robot was not moving as straight as it sould be. Therefore, one of the motor ha dto slow down in order to make the robot move exactly straight as wanted.
+
+
+
+
+
 
 
 \subsection{void goFwdCell()}
@@ -105,8 +139,6 @@ Flow chart of the algorithms (I think there is a online thing where u can make f
 \subsection{Function Parameters}
 
 Yea
-
-\newpage
 
 \section{Appendix}
 
