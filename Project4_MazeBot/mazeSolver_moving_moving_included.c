@@ -20,18 +20,19 @@ typedef struct{
 }cell;
 
 // Movement Variabels defined
-float const ONE_ROTATION = 360;
+float const UNCERTAINTY = 20;
+float const ONE_ROTATION = 360 + UNCERTAINTY;
 int direction = 0;
 float const QUARTER_ROTATION = 180;
 // Add later
 //float const FRICTION_DAMPENER = 1.5;
 float const SIZE_OF_ONE_CELL = 22.5425; //cm
 float const DRIVE_GEAR_RATIO = 5;
-float const RADIUS_OF_WHEEL = 3.5; // cm
-float const CIRCUMFERENCE_OF_WHEEL = 2 * PI * RADIUS_OF_WHEEL;
+float const DIAMETER_OF_WHEEL = 5.5; // cm
+float const CIRCUMFERENCE_OF_WHEEL = PI * DIAMETER_OF_WHEEL;
 
 // Speed Variable
-int const FORWARD = 100;
+int const FORWARD = -100;
 int const BACKWARD = -FORWARD;
 
 int const MAZE_WIDTH = 4;
@@ -62,28 +63,31 @@ task main(){
 		Maze[r][LAST_MAZE_WIDTH_INDEX].EWall = PRESENT;
 
 	}
-	/*
+	
 	goFwdCell();
+	/*
 	Turn90CW();
+	UTurn();
 	goFwdCell();
 	Turn90CCW();
-	*/
+	
 	while(1){
 		MovementWithSensor();
 	}
+	*/
 }
 
 void goFwdCell(){
-	moveMotorTarget(leftDrive, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION, FORWARD);
+	moveMotorTarget(leftDrive, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * (ONE_ROTATION + 7), FORWARD - 2);
 	moveMotorTarget(rightDrive, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION, FORWARD);
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
 }
 
-void Turn90CW(){
-	moveMotorTarget(leftDrive, 800, BACKWARD);
-	moveMotorTarget(rightDrive, 800, FORWARD);
+void Turn90CCW(){
+	moveMotorTarget(leftDrive, 1330, BACKWARD);
+	moveMotorTarget(rightDrive, 1330, FORWARD);
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
@@ -96,9 +100,9 @@ void Turn90CW(){
 
 }
 
-void Turn90CCW(){
-	moveMotorTarget(leftDrive, 800, FORWARD);
-	moveMotorTarget(rightDrive, 5*360/4, BACKWARD);
+void Turn90CW(){
+	moveMotorTarget(leftDrive, 1330, FORWARD);
+	moveMotorTarget(rightDrive, 1330, BACKWARD);
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
