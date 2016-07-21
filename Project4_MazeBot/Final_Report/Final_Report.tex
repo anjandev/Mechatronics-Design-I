@@ -44,7 +44,6 @@ Should be achieved by:
 
 
 \newpage
-
 \section{Mechanical Design of MazeBot}
 
 \subsection{First Iteration}
@@ -67,6 +66,19 @@ In conclusion, we have decided for our next iteration to have the robot's brick 
 
 \newpage
 
+
+
+
+
+%% Do not remove the gap %%
+
+
+
+
+
+
+
+
 \section{Software Design of MazeBot}
 Our main goal with the software of the mazebot was to create program solved the problem simply and was easy to build upon. Furthermore, we wanted our software to have very few constants that we would need to tested for. For example, in order to move forward one cell, we would need to give the following function the degrees to move each of our drive motors:
 \begin{verbatim}
@@ -86,30 +98,103 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \end{verbatim}
 A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
+
+
+
+%% Do not remove the gap %%
+%% From this, these are explanations of the code %%
+
+
+
+
+\subsection{Variables Used to Represent the Size of the Maze}
+\begin{itemize}
+\item Declared one variable that represents the dimension of a single cell
+	\begin{verbatim}
+		float const SIZE_OF_ONE_CELL = 22.5425; // cm 	
+	\end{verbatim} 
+\item Declared four variables that represents the size of the maze
+	\begin{verbatim}
+		int const MAZE_WIDTH = 4;
+		int const MAZE_HEIGHT = 6;
+		int const LAST_MAZE_HEIGHT_INDEX = MAZE_HEIGHT - 1;
+		int const LAST_MAZE_WIDTH_INDEX = MAZE_WIDTH - 1;
+	\end{verbatim} 
+\end{itemize}
+\subsection{Variables Used to Define the Position of the Robot in the Maze and the Size of the Maze}
+\begin{itemize}
+\item Declared two variables that represents the initial position of the robot in the maze
+	\begin{verbatim}
+		int const START_ROW = ;
+		int const START_COL = ;
+		int const END_ROW = ; 
+		int const END_COL = ;
+	\end{verbatim} 
+\item Declared two variables that represents the target position in the maze
+	\begin{verbatim}
+		int const END_ROW = ; 
+		int const END_COL = ;
+	\end{verbatim}
+\item Declared two variables that represents the current position of the robot in the maze 
+	\begin{verbatim}
+		int currentRow = START_ROW;
+		int currentCol = START_COL;
+	\end{verbatim} 
+\item Declared an array that represents the entered maze 
+	\begin{verbatim}
+		int entered[MAZE_WIDTH*MAZE_HEIGHT];
+		int lastEnteredIdx = 0;
+	\end{verbatim} 
+\end{itemize}
+\newpage
 \subsection{Variables Used for Representation of Directions}
 \begin{itemize}
 \item The four integer values that represent each direction were declared as a variable 
-\begin{verbatim}
-#define NORTH 0
-#define EAST 1
-#define SOUTH 2
-#define WEST 3
-\end{verbatim}
+	\begin{verbatim}
+		#define NORTH 0
+		#define EAST 1
+		#define SOUTH 2
+		#define WEST 3
+	\end{verbatim}
 \item Structure name cell was declared and it has five parameters: North wall, South wall, East wall, West wall, and Visited (used to tell if the robot has visited the cell or not)
-\begin{verbatim}
-typedef struct{
-	int NWall;
-	int SWall;
-	int EWall;
-	int WWall;
-	char Visited;
-}cell;
-\end{verbatim}
-\item 
+	\begin{verbatim}
+		typedef struct{
+			int NWall;
+			int SWall;
+			int EWall;
+			int WWall;
+			char Visited;
+		}cell;
+	\end{verbatim}
+\item Declared the variable name "Maze" that has type cell which includes five parameters: North wall, South wall, East wall, West wall, and Visited (used to tell if the robot has visited the cell or not)
+	\begin{verbatim}
+		cell Maze[MAZE_HEIGHT][MAZE_WIDTH];
+	\end{verbatim}
+\item Declared one variable that represents current direction of the robot
+	\begin{verbatim}
+		int direction = 0;
+	\end{verbatim}
 \end{itemize}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Can we change int direction = 0 to = NORTH;;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Variables Used for Moving Mechanism - Going Forward}
-Because of the uncertainties caused by each motor, the robot was not moving as straight as it sould be. Therefore, one of the motor ha dto slow down in order to make the robot move exactly straight as wanted.
+\begin{itemize}
+\item Since minor differences exist between each motors, the robot was not moving as straight as it sould be. Therefore, one of the motor had to slow down in order to make the robot move exactly straight as wanted.
+	\begin{verbatim}
+		int const SPEED_ON_MOTOR_DIF = 10;
+	\end{verbatim} 
+\item The uncertainty of two motors and backlash of the gears exist, and this caused the robot to not move exactly the distance required. Therefore, uncertainty had to be added in order to move robot by the exact distance required. 
+	\begin{verbatim}
+		float const UNCERTAINTY_STRAIGHT = 23;
+	\end{verbatim} 
+\item Each speed of the motors were defined with variable for simplicity of the code. 
+	\begin{verbatim}
+		int const FORWARD = -100;
+		int const BACKWARD = -FORWARD;
+	\end{verbatim} 
+\item
+\end{itemize}
 
 
 
@@ -139,6 +224,22 @@ Flow chart of the algorithms (I think there is a online thing where u can make f
 \subsection{Function Parameters}
 
 Yea
+
+\newpage
+
+
+
+
+
+
+%% Do not remove the gap %%
+
+
+
+
+
+
+
 
 \section{Appendix}
 
