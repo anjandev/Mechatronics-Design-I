@@ -86,7 +86,7 @@ task main(){
 		Maze[r][LAST_MAZE_WIDTH_INDEX].EWall = PRESENT;
 
 	}
-	int direction = 0;
+	int direction = NORTH;
 
 	//direction = Turn90CW(direction);
 	//goFwdCell();
@@ -102,12 +102,14 @@ task main(){
 
 
 
-	while(currentRow != END_ROW && currentCol != END_COL){
+	while(currentRow != END_ROW || currentCol != END_COL){
 		direction = MovementWithSensor(direction);
 		entered[lastEnteredIdx] = direction;
 		lastEnteredIdx++;
 	}
-
+	displayCenteredBigTextLine(1, "Ended While");
+	sleep(3000);
+	
 	//playImmediateTone(FREQUENCY, MILI_TO_BEEP_FOR);
 
 	/*
@@ -118,9 +120,10 @@ task main(){
 
 void deleteDuplicates(){
 	for(int idx = 0; idx < lastEnteredIdx; idx++){
-			if(abs(entered[idx] - entered[idx + 1]) == 2){
-				entered[idx] = '\0';
-				entered[idx + 1] = '\0';
+			if(abs(entered[idx] - entered[idx + 1]) == 2 && idx + 1 <= lastEnteredIdx && entered[idx] >= 0 && entered[idx + 1] >= 0){
+				// infinite loop fix later
+				entered[idx] = -1;
+				entered[idx + 1] = -1;
 				idx = 0;
 			}
 	}
@@ -174,7 +177,8 @@ void goFwdCell(int direction){
 	else if (direction == WEST){
 		currentCol--;
 	}
-
+	displayCenteredBigTextLine(6, "row: %d", currentRow);
+	displayCenteredBigTextLine(8, "col: %d", currentCol);
 }
 
 int Turn90CCW(int direction){
@@ -183,12 +187,14 @@ int Turn90CCW(int direction){
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
-	if(direction < 3){
-		direction++;
+	if(direction == 0){
+		direction = 3;
 	}
 	else{
-		direction = NORTH;
+		direction--;
 	}
+	
+	displayCenteredBigTextLine(4, "%d", direction);
 
 	return direction;
 
@@ -201,21 +207,27 @@ int Turn90CW(int direction){
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
-
-	if(direction == 0){
-		direction = 3;
+	
+	if(direction < 3){
+		direction++;
 	}
 	else{
-		direction--;
+		direction = NORTH;
 	}
+
+	displayCenteredBigTextLine(4, "%d", direction);
 
 	return direction;
 }
 
 int uTurn(int direction){
 	direction = Turn90CW(direction);
+	displayCenteredBigTextLine(4, "%d", direction);
 	direction = Turn90CW(direction);
+	displayCenteredBigTextLine(4, "%d", direction);
 	return direction;
+	
+                   
 }
 
 int thereIsWall(){
