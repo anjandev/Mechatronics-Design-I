@@ -16,7 +16,8 @@ typedef struct{
 	int SWall;
 	int EWall;
 	int WWall;
-	char Visited;
+	int Visited;
+	int entryDir;
 }cell;
 
 // ZERO INDEXED
@@ -28,12 +29,12 @@ int const END_COL = 2;
 int currentRow = START_ROW;
 int currentCol = START_COL;
 
-int const MILI_TO_BEEP_FOR = 2000;
+int const MILI_TO_BEEP_FOR = 200;
 int const FREQUENCY = 300;
 
 // CHANGE THESE IF ANYTHING MECHANICAL. MAKE SURE YOU TEST THESE
 int const SPEED_ON_MOTOR_DIF = 10;
-float const UNCERTAINTY_STRAIGHT = 23;
+float const UNCERTAINTY_STRAIGHT = 20;
 float const UNCERTAINTY_ROT = 27;
 
 // Movement Variabels defined
@@ -67,15 +68,36 @@ int const MILLISECS_TO_DRIVE_INTO_WALL = 2000;
 void goFwdCell(int direction);
 int Turn90CW(int direction);
 int Turn90CCW(int direction);
-int uTurn(int direction);
 int MovementWithSensor(int direction);
 void reverseDirection();
 void deleteDuplicates();
-void goingBackFastestRoute(int direction);
+int goingBackFastestRoute(int direction);
+
+
+void drawInfo(int direction, int going){
+	//displayCenteredTextLine(3, "NorthWall: %d", Maze[currentRow][currentCol].NWall);
+	//displayCenteredTextLine(4, "EastWall: %d", Maze[currentRow][currentCol].EWall);
+	//displayCenteredTextLine(5, "SouthWall: %d", Maze[currentRow][currentCol].SWall);
+	//displayCenteredTextLine(6, "WestWall: %d", Maze[currentRow][currentCol].WWall);
+	//displayCenteredTextLine(7, "row: %d", currentRow);
+	//displayCenteredTextLine(8, "col: %d", currentCol);
+	//displayCenteredTextLine(9, "Direction: %d", direction);
+	displayCenteredTextLine(8, "going to: %d", going);
+	displayCenteredTextLine(9, "Direction: %d", direction);
+}
 
 task main(){
+	for (int c = 0; c < MAZE_WIDTH; c++){
+		for (int r = 0; r < MAZE_HEIGHT; r++){
+			Maze[r][c].Visited = false;
+			Maze[r][c].NWall = PRESENT;
+			Maze[r][c].SWall = PRESENT;
+			Maze[r][c].EWall = PRESENT;
+			Maze[r][c].WWall = PRESENT;
+		}
+	}
 
-// Assigning walls [row][col]
+	// Assigning walls [row][col]
 	for (int c = 0; c < MAZE_WIDTH; c++){
 		Maze[0][c].SWall = PRESENT;
 		Maze[LAST_MAZE_HEIGHT_INDEX][c].NWall = PRESENT;
@@ -86,52 +108,52 @@ task main(){
 		Maze[r][LAST_MAZE_WIDTH_INDEX].EWall = PRESENT;
 
 	}
+
 	int direction = NORTH;
-
-	//direction = Turn90CW(direction);
-	//goFwdCell();
-	/*
-	goFwdCell();
-	Turn90CW();
-	UTurn();
-	goFwdCell();
-	Turn90CCW();
-
-	Turn90CW();
-	*/
-
-
+	Maze[currentRow][currentCol].entryDir = direction;
+	Maze[currentRow][currentCol].Visited = true;
 
 	while(currentRow != END_ROW || currentCol != END_COL){
 		direction = MovementWithSensor(direction);
 		entered[lastEnteredIdx] = direction;
 		lastEnteredIdx++;
 	}
-	displayCenteredBigTextLine(1, "Ended While");
-	sleep(3000);
-	
-	//playImmediateTone(FREQUENCY, MILI_TO_BEEP_FOR);
 
-	/*
-  deleteDuplicates();
-  reverseDirection();
-  goingBackFastestRoute(direction);*/
+	playTone(FREQUENCY, MILI_TO_BEEP_FOR);
+	
+	
+	deleteDuplicates();
+	
+	sleep(MILI_TO_BEEP_FOR * 10);
+	//drawInfo(direction, 0);
+	
+	reverseDirection();	
+	direction = goingBackFastestRoute(direction);
 }
 
-void deleteDuplicates(){
-	for(int idx = 0; idx < lastEnteredIdx; idx++){
-			if(abs(entered[idx] - entered[idx + 1]) == 2 && idx + 1 <= lastEnteredIdx && entered[idx] >= 0 && entered[idx + 1] >= 0){
-				// infinite loop fix later
-				entered[idx] = -1;
-				entered[idx + 1] = -1;
-				idx = 0;
-			}
-	}
 
+
+void deleteDuplicates(){
+	int idx = -1;
+	
+
+	while(idx < lastEnteredIdx){
+		idx++;
+
+		if(abs(entered[idx] - entered[idx + 1]) == 2){
+			for(int moveOGTo = idx; moveOGTo <= lastEnteredIdx - 2; moveOGTo++){
+				entered[moveOGTo] = entered[moveOGTo + 2];
+			}
+
+			lastEnteredIdx = lastEnteredIdx - 2;
+			idx = -1;
+		}
+
+	}
 }
 
 void reverseDirection(){
-	for(int idx = 0; idx < lastEnteredIdx; idx++){
+	for(int idx = 0; idx <= lastEnteredIdx; idx++){
 		if(entered[idx]==EAST){
 			entered[idx] = WEST;
 		}
@@ -147,15 +169,33 @@ void reverseDirection(){
 	}
 }
 
-void goingBackFastestRoute(int direction){
+int goingBackFastestRoute(int direction){
 	for(int idx = lastEnteredIdx; idx >= 0; idx--){
+		displayCenteredTextLine(idx, "%d", entered[idx]);
+		displayCenteredTextLine(7, "%d", direction);
+	}
+	
+	sleep(5000);
+	eraseDisplay();
+	
+	for(int idx = lastEnteredIdx; idx > 0; idx--){
 		// TODO: MAKE IT FAST. TURN WITH FASTEST SOLUTION
-		if(entered[idx]){
-			while(direction != entered[idx]){
-				direction = Turn90CW(direction);
-		  }
-	  }
-  }
+		int temp = entered[idx];
+		while(direction != temp){
+			//drawInfo(direction, entered[idx]);
+			//sleep(1000);
+			direction = Turn90CW(direction);
+			//drawInfo(direction);
+		}
+		displayCenteredTextLine(3, "%d", entered[idx]);
+		displayCenteredTextLine(5, "%d", direction);
+		displayCenteredTextLine(7, "%d", idx);
+		//drawInfo(direction, entered[idx]);
+		sleep(3000);
+		goFwdCell(direction);
+	}
+	
+	return direction;
 }
 
 void goFwdCell(int direction){
@@ -166,19 +206,29 @@ void goFwdCell(int direction){
 	}
 
 	if (direction == NORTH){
+		Maze[currentRow][currentCol].NWall = false;
 		currentRow++;
+		Maze[currentRow][currentCol].SWall = false;
 	}
 	else if (direction == SOUTH){
+		Maze[currentRow][currentCol].SWall = false;
 		currentRow--;
+		Maze[currentRow][currentCol].NWall = false;
 	}
 	else if (direction == EAST){
+		Maze[currentRow][currentCol].EWall = false;
 		currentCol++;
+		Maze[currentRow][currentCol].WWall = false;
 	}
 	else if (direction == WEST){
+		Maze[currentRow][currentCol].WWall = false;
 		currentCol--;
+		Maze[currentRow][currentCol].EWall = false;
 	}
-	displayCenteredBigTextLine(6, "row: %d", currentRow);
-	displayCenteredBigTextLine(8, "col: %d", currentCol);
+
+	Maze[currentRow][currentCol].entryDir = direction;
+	Maze[currentRow][currentCol].Visited = true;
+
 }
 
 int Turn90CCW(int direction){
@@ -193,8 +243,6 @@ int Turn90CCW(int direction){
 	else{
 		direction--;
 	}
-	
-	displayCenteredBigTextLine(4, "%d", direction);
 
 	return direction;
 
@@ -207,7 +255,7 @@ int Turn90CW(int direction){
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
-	
+
 	if(direction < 3){
 		direction++;
 	}
@@ -215,19 +263,8 @@ int Turn90CW(int direction){
 		direction = NORTH;
 	}
 
-	displayCenteredBigTextLine(4, "%d", direction);
 
 	return direction;
-}
-
-int uTurn(int direction){
-	direction = Turn90CW(direction);
-	displayCenteredBigTextLine(4, "%d", direction);
-	direction = Turn90CW(direction);
-	displayCenteredBigTextLine(4, "%d", direction);
-	return direction;
-	
-                   
 }
 
 int thereIsWall(){
@@ -240,40 +277,8 @@ int thereIsWall(){
 
 // Checking order, North(0), East(1), West(3) then South(2)
 int MovementWithSensor(int direction){
-	cell current;
 
-	int backWall = 0;
 	int enteringDirectionWall = thereIsWall();
-
-	if(direction == NORTH && thereIsWall()){
-		current.NWall = 1;
-		enteringDirectionWall = 1;
-	}
-	else if(direction == SOUTH && thereIsWall()){
-		current.SWall = 1;
-		enteringDirectionWall = 1;
-	}
-	else if(direction == EAST && thereIsWall()){
-		current.EWall = 1;
-		enteringDirectionWall = 1;
-	}
-	else if(direction == WEST && thereIsWall()){
-		current.WWall = 1;
-		enteringDirectionWall = 1;
-	}
-
-	if(direction == NORTH && !thereIsWall()){
-		current.NWall = 0;
-	}
-	else if(direction == SOUTH && !thereIsWall()){
-		current.SWall = 0;
-	}
-	else if(direction == EAST && !thereIsWall()){
-		current.EWall = 0;
-	}
-	else if(direction == WEST && !thereIsWall()){
-		current.WWall = 0;
-	}
 
 	// turn to check if wall is right
 	direction = Turn90CW(direction);
@@ -289,20 +294,18 @@ int MovementWithSensor(int direction){
 		return direction;
 	}
 
-	direction = uTurn(direction);
+	direction = Turn90CW(direction);
+
+	direction = Turn90CW(direction);
 
 	if(!thereIsWall()){
 		goFwdCell(direction);
 		return direction;
 	}
 
-  direction =	Turn90CCW(direction);
+	direction =	Turn90CCW(direction);
+
 	goFwdCell(direction);
 
 	return direction;
-}
-
-// If -1 is returned, that means that it didnt readjust and the direction is the same as it was before.
-int readAdjust(int direction){
-
 }
