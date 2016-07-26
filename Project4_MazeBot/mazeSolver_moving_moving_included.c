@@ -35,8 +35,8 @@ int const MILI_TO_BEEP_FOR = 200;
 int const FREQUENCY = 300;
 
 // CHANGE THESE IF ANYTHING MECHANICAL. MAKE SURE YOU TEST THESE
-int const SPEED_ON_MOTOR_DIF = 15;
-float const UNCERTAINTY_STRAIGHT = 18;
+int const SPEED_ON_MOTOR_DIF = 14;
+float const UNCERTAINTY_STRAIGHT = 20;
 float const UNCERTAINTY_ROT = 27;
 
 // Movement Variabels defined
@@ -73,7 +73,7 @@ int lastEnteredIdx = 0;
 #define CELL_WIDTH_MIDDLE (CELL_WIDTH / 2)
 
 // MISC Constants
-int const MILLISECS_TO_DRIVE_INTO_WALL = 2000;
+int const MILLISECS_TO_DRIVE_INTO_WALL = 600;
 
 // Call functions
 void goFwdCell(int direction);
@@ -84,49 +84,59 @@ void reverseDirection();
 void deleteDuplicates();
 int goingBackFastestRoute(int direction);
 void drawInfo(int direction);
+void reAdjust(int direction);
+
+int const CELLS_TO_READJUST_AFTER = 7;
+int timesForwardWithoutReadjust = 0;
+
+
+
+
+
+
 
 void drawInfo(int direction){
 	//drawRect(Left, Top, Right, Bottom);
-	
-  for(int r = 0; r < MAZE_HEIGHT; r++){
-  	for(int c = 0; c < MAZE_WIDTH; c++){
-  		
-  		if(Maze[r][c].SWall == PRESENT){
-  			drawLine(c*CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT);
-  		}
-  		if(Maze[r][c].NWall == PRESENT){
-  			drawLine(c*CELL_WIDTH,r*CELL_HEIGHT + CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT + CELL_HEIGHT);
-  		}
-  		if(Maze[r][c].WWall == PRESENT){
-  			drawLine(c*CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH, r*CELL_HEIGHT + CELL_HEIGHT);
-  		}
-  		if(Maze[r][c].EWall == PRESENT){
-  			drawLine(c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH, r*CELL_HEIGHT + CELL_HEIGHT);
-  		}
-  		
-  	}
-  }
-  
-  /*
+	eraseDisplay();
+
+	for(int r = 0; r < MAZE_HEIGHT; r++){
+		for(int c = 0; c < MAZE_WIDTH; c++){
+
+			if(Maze[r][c].SWall == PRESENT){
+				drawLine(c*CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT);
+			}
+			if(Maze[r][c].NWall == PRESENT){
+				drawLine(c*CELL_WIDTH,r*CELL_HEIGHT + CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT + CELL_HEIGHT);
+			}
+			if(Maze[r][c].WWall == PRESENT){
+				drawLine(c*CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH, r*CELL_HEIGHT + CELL_HEIGHT);
+			}
+			if(Maze[r][c].EWall == PRESENT){
+				drawLine(c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH, r*CELL_HEIGHT + CELL_HEIGHT);
+			}
+
+		}
+	}
+
 	if(direction == NORTH){
-		char robSymbol = "^";
+		displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, "^");
 	}
 	else if(direction == EAST){
-		char robSymbol = ">";
+		displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, ">");
 	}
 	else if(direction == WEST){
-		char robSymbol = "<";
+		displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, "<");
 	}
-	else{
-		char robSymbol = "V";
-	}*/
-	
-	
-	
+	else if(direction == SOUTH){
+		displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, "v");
+	}
+
+
+
 }
 
 task main(){
-	
+
 	for (int c = 0; c < MAZE_WIDTH; c++){
 		for (int r = 0; r < MAZE_HEIGHT; r++){
 			Maze[r][c].Visited = false;
@@ -160,17 +170,18 @@ task main(){
 	}
 
 	playTone(FREQUENCY, MILI_TO_BEEP_FOR);
-	
-	
+
+
 	deleteDuplicates();
-	
+
 	sleep(MILI_TO_BEEP_FOR * 10);
-	
+
 	reverseDirection();	
 	direction = goingBackFastestRoute(direction);
-	
+
 	drawInfo(direction);
 	sleep(30000);
+
 }
 
 
@@ -211,11 +222,11 @@ void reverseDirection(){
 }
 
 int goingBackFastestRoute(int direction){
-	
+
 	for(int idx = lastEnteredIdx - 1; idx >= 0; idx--){
-		
+		reAdjust(direction);
 		int turnNum = entered[idx] - direction;
-		
+
 		if(abs(turnNum) == 2){
 			direction = Turn90CW(direction);
 			direction = Turn90CW(direction);
@@ -232,11 +243,11 @@ int goingBackFastestRoute(int direction){
 		else if(turnNum == -1){
 			direction = Turn90CCW(direction);
 		}
-		
+
 		goFwdCell(direction);
 		
 	}
-	
+
 	return direction;
 }
 
@@ -271,6 +282,7 @@ void goFwdCell(int direction){
 	Maze[currentRow][currentCol].entryDir = direction;
 	Maze[currentRow][currentCol].Visited = true;
 
+	timesForwardWithoutReadjust++;
 }
 
 int Turn90CCW(int direction){
@@ -285,7 +297,7 @@ int Turn90CCW(int direction){
 	else{
 		direction--;
 	}
-	
+	drawInfo(direction);
 	return direction;
 
 }
@@ -304,7 +316,7 @@ int Turn90CW(int direction){
 	else{
 		direction = NORTH;
 	}
-	
+	drawInfo(direction);
 	return direction;
 }
 
@@ -319,26 +331,39 @@ int thereIsWall(){
 
 void writeWall(int direction){
 	if(direction == NORTH && thereIsWall()){
-			Maze[currentRow][currentCol].NWall = PRESENT;
+		Maze[currentRow][currentCol].NWall = PRESENT;
+		if(currentRow + 1 <= LAST_MAZE_HEIGHT_INDEX){
+			Maze[currentRow + 1][currentCol].SWall = PRESENT;
+		}
 	}
 	else if(direction == SOUTH && thereIsWall()){
-			Maze[currentRow][currentCol].SWall = PRESENT;
+		Maze[currentRow][currentCol].SWall = PRESENT;
+		if(currentRow - 1 >= 0){
+			Maze[currentRow - 1][currentCol].NWall = PRESENT;
+		}
 	}
 	else if(direction == EAST && thereIsWall()){
-			Maze[currentRow][currentCol].EWall = PRESENT;
+		Maze[currentRow][currentCol].EWall = PRESENT;
+		if(currentCol + 1 <= LAST_MAZE_WIDTH_INDEX){
+			Maze[currentRow][currentCol + 1].WWall = PRESENT;
+		}
 	}
 	else if(direction == WEST && thereIsWall()){
-			Maze[currentRow][currentCol].WWall = PRESENT;
+		Maze[currentRow][currentCol].WWall = PRESENT;
+		if(currentCol - 1 >= 0){
+			Maze[currentRow][currentCol - 1].EWall = PRESENT;
+		}
 	}
 }
 
 
 // Checking order, North(0), East(1), West(3) then South(2)
 int MovementWithSensor(int direction){
+	reAdjust(direction);
 
 	int enteringDirectionWall = thereIsWall();
 	writeWall(direction);
-	
+
 	// turn to check if wall is right
 	direction = Turn90CW(direction);
 	writeWall(direction);
@@ -356,7 +381,7 @@ int MovementWithSensor(int direction){
 	direction = Turn90CW(direction);
 	direction = Turn90CW(direction);
 	writeWall(direction);
-	
+
 	if(!thereIsWall()){
 		goFwdCell(direction);
 		return direction;
@@ -366,4 +391,46 @@ int MovementWithSensor(int direction){
 	goFwdCell(direction);
 
 	return direction;
+}
+
+
+void reAdjust(int direction){
+	if(timesForwardWithoutReadjust >=  CELLS_TO_READJUST_AFTER){
+
+		int wallFront = thereIsWall();
+
+		direction = Turn90CW(direction);
+
+		if(wallFront && thereIsWall()){
+			motor[rightDrive] = FORWARD;
+			motor[leftDrive] = FORWARD;
+			sleep(MILLISECS_TO_DRIVE_INTO_WALL);
+
+			moveMotorTarget(leftDrive, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION / 7, BACKWARD);
+			moveMotorTarget(rightDrive, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION / 7, BACKWARD - SPEED_ON_MOTOR_DIF);
+			repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+			}
+
+			Turn90CCW(direction);
+
+			motor[rightDrive] = FORWARD;
+			motor[leftDrive] = FORWARD;
+			sleep(MILLISECS_TO_DRIVE_INTO_WALL);
+
+			moveMotorTarget(leftDrive, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION / 7, BACKWARD);
+			moveMotorTarget(rightDrive, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION / 7, BACKWARD - SPEED_ON_MOTOR_DIF);
+			repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+			}
+
+			timesForwardWithoutReadjust = 0;
+		}	
+		else{
+			direction = Turn90CCW(direction);
+		}
+
+	}
+	
+
 }
