@@ -33,7 +33,7 @@ int const MILI_TO_BEEP_FOR = 200;
 int const FREQUENCY = 300;
 
 // CHANGE THESE IF ANYTHING MECHANICAL. MAKE SURE YOU TEST THESE
-int const SPEED_ON_MOTOR_DIF = 10;
+int const SPEED_ON_MOTOR_DIF = 12;
 float const UNCERTAINTY_STRAIGHT = 20;
 float const UNCERTAINTY_ROT = 27;
 
@@ -170,28 +170,40 @@ void reverseDirection(){
 }
 
 int goingBackFastestRoute(int direction){
-	for(int idx = lastEnteredIdx; idx >= 0; idx--){
+	/*for(int idx = lastEnteredIdx; idx >= 0; idx--){
 		displayCenteredTextLine(idx, "%d", entered[idx]);
 		displayCenteredTextLine(7, "%d", direction);
 	}
 	
 	sleep(5000);
-	eraseDisplay();
+	eraseDisplay();*/
 	
-	for(int idx = lastEnteredIdx; idx > 0; idx--){
+	for(int idx = lastEnteredIdx - 1; idx >= 0; idx--){
 		// TODO: MAKE IT FAST. TURN WITH FASTEST SOLUTION
-		int temp = entered[idx];
-		while(direction != temp){
-			//drawInfo(direction, entered[idx]);
-			//sleep(1000);
+		int turnNum = entered[idx] - direction;
+		
+		if(abs(turnNum) == 2){
 			direction = Turn90CW(direction);
-			//drawInfo(direction);
+			direction = Turn90CW(direction);
 		}
-		displayCenteredTextLine(3, "%d", entered[idx]);
+		else if(turnNum == 3){
+			direction = Turn90CCW(direction);
+		}
+		else if(turnNum == -3){
+			direction = Turn90CW(direction);
+		}
+		else if(turnNum == 1){
+			direction = Turn90CW(direction);
+		}
+		else if(turnNum == -1){
+			direction = Turn90CCW(direction);
+		}
+
+		
+		/*displayCenteredTextLine(3, "%d", entered[idx]);
 		displayCenteredTextLine(5, "%d", direction);
 		displayCenteredTextLine(7, "%d", idx);
-		//drawInfo(direction, entered[idx]);
-		sleep(3000);
+		//drawInfo(direction, entered[idx]);*/
 		goFwdCell(direction);
 	}
 	
