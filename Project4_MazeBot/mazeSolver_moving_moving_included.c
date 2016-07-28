@@ -23,7 +23,7 @@ typedef struct{
 }cell;
 
 // ZERO INDEXED
-int const START_ROW = 0;
+int const START_ROW = 1;
 int const START_COL = 0;
 int const END_ROW = 2;
 int const END_COL = 2;
@@ -36,7 +36,7 @@ int const FREQUENCY = 300;
 
 // CHANGE THESE IF ANYTHING MECHANICAL. MAKE SURE YOU TEST THESE
 float const UNCERTAINTY_STRAIGHT = 19;
-float const UNCERTAINTY_ROT = 27;
+float const UNCERTAINTY_ROT = 25;
 
 // Movement Variabels defined
 float const ONE_ROTATION = 360 + UNCERTAINTY_STRAIGHT;
@@ -134,7 +134,7 @@ void drawInfo(int direction){
 }
 
 task main(){
-	
+
 	for (int c = 0; c < MAZE_WIDTH; c++){
 		for (int r = 0; r < MAZE_HEIGHT; r++){
 			Maze[r][c].Visited = false;
@@ -156,9 +156,9 @@ task main(){
 		Maze[r][LAST_MAZE_WIDTH_INDEX].EWall = PRESENT;
 
 	}
-	
+
 	int direction = NORTH;
-	
+
 	Maze[currentRow][currentCol].entryDir = direction;
 	Maze[currentRow][currentCol].Visited = true;
 
@@ -175,12 +175,12 @@ task main(){
 
 	sleep(MILI_TO_BEEP_FOR * 10);
 
-	reverseDirection();	
+	reverseDirection();
 	direction = goingBackFastestRoute(direction);
 
 	drawInfo(direction);
 	sleep(30000);
-	
+
 }
 
 
@@ -252,7 +252,7 @@ int goingBackFastestRoute(int direction){
 
 void goFwdCell(int direction){
 	setMotorSyncEncoder(leftDrive, rightDrive, 0, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION, FORWARD);
-  
+
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
@@ -285,20 +285,20 @@ void goFwdCell(int direction){
 
 int Turn90CCW(int direction){
 	setMotorSyncEncoder(leftDrive, rightDrive, -100, QUARTER_ROTATION * DRIVE_GEAR_RATIO, FORWARD);
-	
+
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
-	
+
 	direction = findLeft(direction);
-		
+
 	drawInfo(direction);
 	return direction;
 
 }
 
 int Turn90CW(int direction){
-	setMotorSyncEncoder(leftDrive, rightDrive, 100, QUARTER_ROTATION * DRIVE_GEAR_RATIO, FORWARD);	
+	setMotorSyncEncoder(leftDrive, rightDrive, 100, QUARTER_ROTATION * DRIVE_GEAR_RATIO, FORWARD);
 
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -350,22 +350,25 @@ void writeWall(int direction){
 // Checking order, North(0), East(1), West(3) then South(2)
 int MovementWithSensor(int direction){
 
-
 	int enteringDirectionWall = thereIsWall();
 	writeWall(direction);
 
 	// turn to check if wall is right
 	direction = Turn90CW(direction);
 	writeWall(direction);
+	reAdjustWayBack(direction);
+
+	// go right if no wall right
 	if(!thereIsWall()){
 		goFwdCell(direction);
 		return direction;
 	}
-	
-	if(thereIsWall() && enteringDirectionWall){
-		reAdjustCCW(direction);	
-	}
-	
+
+	/*if(thereIsWall() && enteringDirectionWall){
+	reAdjustCCW(direction);
+	}*/
+
+	// go thru entering
 	if(thereIsWall() && !enteringDirectionWall){
 		direction = Turn90CCW(direction);
 		goFwdCell(direction);
@@ -375,13 +378,18 @@ int MovementWithSensor(int direction){
 	direction = Turn90CW(direction);
 	direction = Turn90CW(direction);
 	writeWall(direction);
+	reAdjustWayBack(direction);
 
+	// go thru back
 	if(!thereIsWall()){
 		goFwdCell(direction);
 		return direction;
 	}
 
+	// go left
 	direction =	Turn90CCW(direction);
+	writeWall(direction);
+	reAdjustWayBack(direction);
 	goFwdCell(direction);
 
 	return direction;
@@ -389,125 +397,125 @@ int MovementWithSensor(int direction){
 
 
 void reAdjustCCW(int direction){
-	if(timesForwardWithoutReadjust >=  CELLS_TO_READJUST_AFTER){
 
-		direction = Turn90CCW(direction);
+	direction = Turn90CCW(direction);
 
-		motor[rightDrive] = FORWARD;
-		motor[leftDrive] = FORWARD;
-		sleep(MILLISECS_TO_DRIVE_INTO_WALL);
+	motor[rightDrive] = FORWARD;
+	motor[leftDrive] = FORWARD;
+	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-		setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
-		
-		repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
 
-		}
-
-		Turn90CW(direction);
-
-		motor[rightDrive] = FORWARD;
-		motor[leftDrive] = FORWARD;
-		sleep(MILLISECS_TO_DRIVE_INTO_WALL);
-
-		setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
-		
-		repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
-
-		}
-
-		timesForwardWithoutReadjust = 0;
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
+
+	Turn90CW(direction);
+
+	motor[rightDrive] = FORWARD;
+	motor[leftDrive] = FORWARD;
+	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
+
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
+
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+	}
+
+	timesForwardWithoutReadjust = 0;
+
+
 }
 
 void reAdjustCW(int direction){
-	if(timesForwardWithoutReadjust >=  CELLS_TO_READJUST_AFTER){
 
-		direction = Turn90CW(direction);
 
-		motor[rightDrive] = FORWARD;
-		motor[leftDrive] = FORWARD;
-		sleep(MILLISECS_TO_DRIVE_INTO_WALL);
+	direction = Turn90CW(direction);
 
-		setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
-		
-		repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+	motor[rightDrive] = FORWARD;
+	motor[leftDrive] = FORWARD;
+	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-		}
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
 
-		Turn90CCW(direction);
-
-		motor[rightDrive] = FORWARD;
-		motor[leftDrive] = FORWARD;
-		sleep(MILLISECS_TO_DRIVE_INTO_WALL);
-
-		setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
-		
-		repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
-
-		}
-
-		timesForwardWithoutReadjust = 0;
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
+
+	Turn90CCW(direction);
+
+	motor[rightDrive] = FORWARD;
+	motor[leftDrive] = FORWARD;
+	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
+
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
+
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+	}
+
+	timesForwardWithoutReadjust = 0;
+
+
 }
 
 void reAdjustWayBack(int direction){
 	int enteringWall = thereIsWall();
-	
-	if(isThereWallInDir(findLeft(direction)) && enteringWall){
+
+	if(timesForwardWithoutReadjust >=  CELLS_TO_READJUST_AFTER){
+		if(isThereWallInDir(findLeft(direction)) && enteringWall){
 			reAdjustCCW(direction);
-	}
-	else if(isThereWallInDir(findLeft(direction)) && isThereWallInDir(findBackDir(direction))){
+		}
+		else if(isThereWallInDir(findLeft(direction)) && isThereWallInDir(findBackDir(direction))){
 			direction = Turn90CCW(direction);
 			reAdjustCCW(direction);
 			direction = Turn90CW(direction);
-	}
-	else if(enteringWall && isThereWallInDir(findRight(direction))){
+		}
+		else if(enteringWall && isThereWallInDir(findRight(direction))){
 			reAdjustCW(direction);
-	}
-	else if(isThereWallInDir(findRight(direction)) && isThereWallInDir(findBackDir(direction))){
+		}
+		else if(isThereWallInDir(findRight(direction)) && isThereWallInDir(findBackDir(direction))){
 			direction = Turn90CW(direction);
 			reAdjustCW(direction);
 			direction = Turn90CCW(direction);
+		}
 	}
-	
 }
 
 int findBackDir (int currentDirection){
 	if(currentDirection == NORTH){
-		return SOUTH;	
+		return SOUTH;
 	}
 	else if(currentDirection == EAST){
-		return WEST;	
+		return WEST;
 	}
 	else if(currentDirection == WEST){
-		return EAST;	
+		return EAST;
 	}
-	
-	return NORTH;	
-	
-	
+
+	return NORTH;
+
+
 }
 
 int findRight(int currentDirection){
-	
+
 	if(currentDirection == WEST){
-		return NORTH;	
+		return NORTH;
 	}
 	else{
-		return currentDirection + 1;	
+		return currentDirection + 1;
 	}
 
 }
 
 int findLeft(int currentDirection){
-	
+
 	if(currentDirection == NORTH){
-		return WEST;	
+		return WEST;
 	}
 	else{
-		return currentDirection - 1;	
+		return currentDirection - 1;
 	}
 
 }
@@ -515,17 +523,17 @@ int findLeft(int currentDirection){
 
 int isThereWallInDir(int wallDir){
 	if(wallDir == NORTH && Maze[currentRow][currentCol].NWall == PRESENT){
-		return PRESENT;	
+		return PRESENT;
 	}
 	else if(wallDir == SOUTH && Maze[currentRow][currentCol].SWall == PRESENT){
-		return PRESENT;	
+		return PRESENT;
 	}
 	else if(wallDir == EAST && Maze[currentRow][currentCol].EWall == PRESENT){
-		return PRESENT;	
+		return PRESENT;
 	}
 	else	if(wallDir == WEST && Maze[currentRow][currentCol].WWall == PRESENT){
-		return PRESENT;	
+		return PRESENT;
 	}
-	
+
 	return NOT_PRESENT;
 }
