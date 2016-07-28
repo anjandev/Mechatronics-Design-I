@@ -22,11 +22,13 @@ typedef struct{
 	int entryDir;
 }cell;
 
+////////////////////////////////////////////////////////////////////////////////
 // ZERO INDEXED
-int const START_ROW = 1;
-int const START_COL = 0;
+int const START_ROW = 0;
+int const START_COL = 5;
 int const END_ROW = 2;
-int const END_COL = 2;
+int const END_COL = 3;
+/////////////////////////////////////////////////////////////////////////////////
 
 int currentRow = START_ROW;
 int currentCol = START_COL;
@@ -71,7 +73,7 @@ int lastEnteredIdx = 0;
 #define CELL_WIDTH_MIDDLE (CELL_WIDTH / 2)
 
 // MISC Constants
-int const MILLISECS_TO_DRIVE_INTO_WALL = 1000;
+int const MILLISECS_TO_DRIVE_INTO_WALL = 1100;
 
 // Call functions
 void goFwdCell(int direction);
@@ -90,8 +92,10 @@ int findBackDir (int currentDirection);
 int isThereWallInDir(int wallDir);
 void reAdjustWayBack(int direction);
 
-int const CELLS_TO_READJUST_AFTER = 5;
+/////////////////////////////////////////////////////////////////////
+int const CELLS_TO_READJUST_AFTER = 1;
 int timesForwardWithoutReadjust = 0;
+/////////////////////////////////////////////////////////////////////
 
 void drawInfo(int direction){
 	//drawRect(Left, Top, Right, Bottom);
@@ -344,55 +348,94 @@ void writeWall(int direction){
 			Maze[currentRow][currentCol - 1].EWall = PRESENT;
 		}
 	}
+	
+	else if(direction == NORTH && !thereIsWall()){
+		Maze[currentRow][currentCol].NWall = false;
+		if(currentRow + 1 <= LAST_MAZE_HEIGHT_INDEX){
+			Maze[currentRow + 1][currentCol].SWall = false;
+		}
+	}
+	else if(direction == SOUTH && !thereIsWall()){
+		Maze[currentRow][currentCol].SWall = false;
+		if(currentRow - 1 >= 0){
+			Maze[currentRow - 1][currentCol].NWall = false;
+		}
+	}
+	else if(direction == EAST && !thereIsWall()){
+		Maze[currentRow][currentCol].EWall = false;
+		if(currentCol + 1 <= LAST_MAZE_WIDTH_INDEX){
+			Maze[currentRow][currentCol + 1].WWall = false;
+		}
+	}
+	else if(direction == WEST && !thereIsWall()){
+		Maze[currentRow][currentCol].WWall = false;
+		if(currentCol - 1 >= 0){
+			Maze[currentRow][currentCol - 1].EWall = false;
+		}
+	}
+	
+	
 }
 
 
 // Checking order, North(0), East(1), West(3) then South(2)
+
+// right, north, left, back
 int MovementWithSensor(int direction){
 
 	int enteringDirectionWall = thereIsWall();
 	writeWall(direction);
-
-	// turn to check if wall is right
-	direction = Turn90CW(direction);
-	writeWall(direction);
 	reAdjustWayBack(direction);
-
-	// go right if no wall right
-	if(!thereIsWall()){
-		goFwdCell(direction);
-		return direction;
+	
+	// turn to check if wall is right
+	if(isThereWallInDir(findRight(direction)) == UNKNOWN || isThereWallInDir(findRight(direction)) == NOT_PRESENT){
+		direction = Turn90CW(direction);
+		writeWall(direction);
+		
+		// go right if no wall right
+		if(!thereIsWall()){
+			goFwdCell(direction);
+			return direction;
+		}
+		else{
+			direction = Turn90CCW(direction);
+			reAdjustWayBack(direction);
+		}
+	}		
+	
+	if(!enteringDirectionWall){
+			goFwdCell(direction);
+			return direction;
 	}
-
-	/*if(thereIsWall() && enteringDirectionWall){
-	reAdjustCCW(direction);
-	}*/
-
-	// go thru entering
-	if(thereIsWall() && !enteringDirectionWall){
+	
+	// At this point, we know there r walls on the R and N
+	// We are facing N 
+	
+	// if we know there is wall left, go thru back
+	if(isThereWallInDir(findLeft(direction)) == UNKNOWN || isThereWallInDir(findLeft(direction)) == NOT_PRESENT){
+		direction = Turn90CCW(direction);
+		writeWall(direction);
+						
+		if(!thereIsWall()){
+			goFwdCell(direction);
+			return direction;
+		}
+		else{
+			reAdjustWayBack(direction);
+			direction = Turn90CCW(direction);
+			goFwdCell(direction);
+			return direction;
+		}
+	
+	}
+	else{
+		reAdjustWayBack(direction);
+		direction = Turn90CCW(direction);
 		direction = Turn90CCW(direction);
 		goFwdCell(direction);
 		return direction;
 	}
-
-	direction = Turn90CW(direction);
-	direction = Turn90CW(direction);
-	writeWall(direction);
-	reAdjustWayBack(direction);
-
-	// go thru back
-	if(!thereIsWall()){
-		goFwdCell(direction);
-		return direction;
-	}
-
-	// go left
-	direction =	Turn90CCW(direction);
-	writeWall(direction);
-	reAdjustWayBack(direction);
-	goFwdCell(direction);
-
-	return direction;
+	
 }
 
 
@@ -404,7 +447,7 @@ void reAdjustCCW(int direction){
 	motor[leftDrive] = FORWARD;
 	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + 10, BACKWARD);
 
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -416,7 +459,7 @@ void reAdjustCCW(int direction){
 	motor[leftDrive] = FORWARD;
 	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + 10, BACKWARD);
 
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -463,18 +506,18 @@ void reAdjustWayBack(int direction){
 	int enteringWall = thereIsWall();
 
 	if(timesForwardWithoutReadjust >=  CELLS_TO_READJUST_AFTER){
-		if(isThereWallInDir(findLeft(direction)) && enteringWall){
+		if(isThereWallInDir(findLeft(direction)) == PRESENT && enteringWall){
 			reAdjustCCW(direction);
 		}
-		else if(isThereWallInDir(findLeft(direction)) && isThereWallInDir(findBackDir(direction))){
+		else if(isThereWallInDir(findLeft(direction)) == PRESENT && isThereWallInDir(findBackDir(direction))){
 			direction = Turn90CCW(direction);
 			reAdjustCCW(direction);
 			direction = Turn90CW(direction);
 		}
-		else if(enteringWall && isThereWallInDir(findRight(direction))){
+		else if(enteringWall && isThereWallInDir(findRight(direction)) == PRESENT){
 			reAdjustCW(direction);
 		}
-		else if(isThereWallInDir(findRight(direction)) && isThereWallInDir(findBackDir(direction))){
+		else if(isThereWallInDir(findRight(direction)) == PRESENT && isThereWallInDir(findBackDir(direction)) == PRESENT){
 			direction = Turn90CW(direction);
 			reAdjustCW(direction);
 			direction = Turn90CCW(direction);
@@ -533,6 +576,19 @@ int isThereWallInDir(int wallDir){
 	}
 	else	if(wallDir == WEST && Maze[currentRow][currentCol].WWall == PRESENT){
 		return PRESENT;
+	}
+	
+	if(wallDir == NORTH && Maze[currentRow][currentCol].NWall == UNKNOWN){
+		return UNKNOWN;
+	}
+	else if(wallDir == SOUTH && Maze[currentRow][currentCol].SWall == UNKNOWN){
+		return UNKNOWN;
+	}
+	else if(wallDir == EAST && Maze[currentRow][currentCol].EWall == UNKNOWN){
+		return UNKNOWN;
+	}
+	else	if(wallDir == WEST && Maze[currentRow][currentCol].WWall == UNKNOWN){
+		return UNKNOWN;
 	}
 
 	return NOT_PRESENT;
