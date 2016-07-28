@@ -35,9 +35,8 @@ int const MILI_TO_BEEP_FOR = 200;
 int const FREQUENCY = 300;
 
 // CHANGE THESE IF ANYTHING MECHANICAL. MAKE SURE YOU TEST THESE
-int const SPEED_ON_MOTOR_DIF = 0;
-float const UNCERTAINTY_STRAIGHT = 0;
-float const UNCERTAINTY_ROT = 0;
+float const UNCERTAINTY_STRAIGHT = 19;
+float const UNCERTAINTY_ROT = 37;
 
 // Movement Variabels defined
 float const ONE_ROTATION = 360 + UNCERTAINTY_STRAIGHT;
@@ -132,7 +131,7 @@ void drawInfo(int direction){
 }
 
 task main(){
-
+	
 	for (int c = 0; c < MAZE_WIDTH; c++){
 		for (int r = 0; r < MAZE_HEIGHT; r++){
 			Maze[r][c].Visited = false;
@@ -156,7 +155,7 @@ task main(){
 	}
 	
 	int direction = NORTH;
-	/*
+	
 	Maze[currentRow][currentCol].entryDir = direction;
 	Maze[currentRow][currentCol].Visited = true;
 
@@ -178,9 +177,6 @@ task main(){
 
 	drawInfo(direction);
 	sleep(30000);
-	*/
-	
-	goFwdCell(direction);
 	
 }
 
@@ -251,17 +247,13 @@ int goingBackFastestRoute(int direction){
 }
 
 void goFwdCell(int direction){
-	
-
-	//moveMotorTarget(leftDrive, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION, FORWARD);
-	//moveMotorTarget(rightDrive, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION, FORWARD + SPEED_ON_MOTOR_DIF);
-
 	setMotorSyncEncoder(leftDrive, rightDrive, 0, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION, FORWARD);
   
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
 
+	
 	if (direction == NORTH){
 		Maze[currentRow][currentCol].NWall = false;
 		currentRow++;
