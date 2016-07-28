@@ -24,10 +24,11 @@ typedef struct{
 
 ////////////////////////////////////////////////////////////////////////////////
 // ZERO INDEXED
-int const START_ROW = 0;
-int const START_COL = 5;
-int const END_ROW = 2;
-int const END_COL = 3;
+int const START_ROW = 3;
+int const START_COL = 0;
+int const END_ROW = 3;
+int const END_COL = 4;
+//3034 - longest route
 /////////////////////////////////////////////////////////////////////////////////
 
 int currentRow = START_ROW;
@@ -38,7 +39,8 @@ int const FREQUENCY = 300;
 
 // CHANGE THESE IF ANYTHING MECHANICAL. MAKE SURE YOU TEST THESE
 float const UNCERTAINTY_STRAIGHT = 19;
-float const UNCERTAINTY_ROT = 25;
+float const UNCERTAINTY_ROT = 23;
+float const UNCERTAINTY_READJUST = 35;
 
 // Movement Variabels defined
 float const ONE_ROTATION = 360 + UNCERTAINTY_STRAIGHT;
@@ -93,7 +95,7 @@ int isThereWallInDir(int wallDir);
 void reAdjustWayBack(int direction);
 
 /////////////////////////////////////////////////////////////////////
-int const CELLS_TO_READJUST_AFTER = 1;
+int const CELLS_TO_READJUST_AFTER = 3;
 int timesForwardWithoutReadjust = 0;
 /////////////////////////////////////////////////////////////////////
 
@@ -183,7 +185,7 @@ task main(){
 	direction = goingBackFastestRoute(direction);
 
 	drawInfo(direction);
-	sleep(30000);
+
 
 }
 
@@ -436,6 +438,7 @@ int MovementWithSensor(int direction){
 		return direction;
 	}
 	
+	sleep(1000000);
 }
 
 
@@ -447,7 +450,7 @@ void reAdjustCCW(int direction){
 	motor[leftDrive] = FORWARD;
 	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + 10, BACKWARD);
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
 
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -459,7 +462,7 @@ void reAdjustCCW(int direction){
 	motor[leftDrive] = FORWARD;
 	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + 10, BACKWARD);
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
 
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -479,7 +482,7 @@ void reAdjustCW(int direction){
 	motor[leftDrive] = FORWARD;
 	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
 
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -491,7 +494,7 @@ void reAdjustCW(int direction){
 	motor[leftDrive] = FORWARD;
 	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7, BACKWARD);
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
 
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -523,6 +526,8 @@ void reAdjustWayBack(int direction){
 			direction = Turn90CCW(direction);
 		}
 	}
+	
+	
 }
 
 int findBackDir (int currentDirection){
