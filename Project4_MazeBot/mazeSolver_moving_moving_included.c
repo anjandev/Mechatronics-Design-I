@@ -23,10 +23,10 @@ typedef struct{
 }cell;
 
 // ZERO INDEXED
-int const START_ROW = 1;
+int const START_ROW = 3;
 int const START_COL = 0;
-int const END_ROW = 2;
-int const END_COL = 2;
+int const END_ROW = 0;
+int const END_COL = 0;
 
 int currentRow = START_ROW;
 int currentCol = START_COL;
@@ -36,7 +36,7 @@ int const FREQUENCY = 300;
 
 // CHANGE THESE IF ANYTHING MECHANICAL. MAKE SURE YOU TEST THESE
 float const UNCERTAINTY_STRAIGHT = 19;
-float const UNCERTAINTY_ROT = 37;
+float const UNCERTAINTY_ROT = 27;
 
 // Movement Variabels defined
 float const ONE_ROTATION = 360 + UNCERTAINTY_STRAIGHT;
@@ -72,7 +72,7 @@ int lastEnteredIdx = 0;
 #define CELL_WIDTH_MIDDLE (CELL_WIDTH / 2)
 
 // MISC Constants
-int const MILLISECS_TO_DRIVE_INTO_WALL = 600;
+int const MILLISECS_TO_DRIVE_INTO_WALL = 1000;
 
 // Call functions
 void goFwdCell(int direction);
@@ -85,7 +85,7 @@ int goingBackFastestRoute(int direction);
 void drawInfo(int direction);
 void reAdjust(int direction);
 
-int const CELLS_TO_READJUST_AFTER = 3;
+int const CELLS_TO_READJUST_AFTER = 5;
 int timesForwardWithoutReadjust = 0;
 
 
@@ -252,8 +252,6 @@ void goFwdCell(int direction){
 	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
 	}
-
-	
 	if (direction == NORTH){
 		Maze[currentRow][currentCol].NWall = false;
 		currentRow++;
@@ -396,7 +394,7 @@ int MovementWithSensor(int direction){
 void reAdjust(int direction){
 	if(timesForwardWithoutReadjust >=  CELLS_TO_READJUST_AFTER){
 
-		direction = Turn90CW(direction);
+		direction = Turn90CCW(direction);
 
 		motor[rightDrive] = FORWARD;
 		motor[leftDrive] = FORWARD;
@@ -408,7 +406,7 @@ void reAdjust(int direction){
 
 		}
 
-		Turn90CCW(direction);
+		Turn90CW(direction);
 
 		motor[rightDrive] = FORWARD;
 		motor[leftDrive] = FORWARD;
