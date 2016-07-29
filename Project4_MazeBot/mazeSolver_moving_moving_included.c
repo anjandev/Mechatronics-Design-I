@@ -39,7 +39,7 @@ int const FREQUENCY = 300;
 
 // CHANGE THESE IF ANYTHING MECHANICAL. MAKE SURE YOU TEST THESE
 float const UNCERTAINTY_STRAIGHT = 19;
-float const UNCERTAINTY_ROT = 23;
+float const UNCERTAINTY_ROT = 28;
 float const UNCERTAINTY_READJUST = 35;
 
 // Movement Variabels defined
@@ -185,7 +185,6 @@ task main(){
 	direction = goingBackFastestRoute(direction);
 
 	drawInfo(direction);
-
 
 }
 
