@@ -511,7 +511,7 @@ void reAdjustWayBack(int direction){
 		if(isThereWallInDir(findLeft(direction)) == PRESENT && enteringWall){
 			reAdjustCCW(direction);
 		}
-		else if(isThereWallInDir(findLeft(direction)) == PRESENT && isThereWallInDir(findBackDir(direction))){
+		else if(isThereWallInDir(findLeft(direction)) == PRESENT && isThereWallInDir(findBackDir(direction)) == PRESENT){
 			direction = Turn90CCW(direction);
 			reAdjustCCW(direction);
 			direction = Turn90CW(direction);
