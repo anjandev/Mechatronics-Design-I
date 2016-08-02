@@ -24,7 +24,7 @@ typedef struct{
 
 ////////////////////////////////////////////////////////////////////////////////
 // ZERO INDEXED
-int const START_ROW = 3;
+int const START_ROW = 2;
 int const START_COL = 0;
 int const END_ROW = 3;
 int const END_COL = 4;
@@ -39,7 +39,7 @@ int const FREQUENCY = 300;
 
 // CHANGE THESE IF ANYTHING MECHANICAL. MAKE SURE YOU TEST THESE
 float const UNCERTAINTY_STRAIGHT = 19;
-float const UNCERTAINTY_ROT = 28;
+float const UNCERTAINTY_ROT = 27;
 float const UNCERTAINTY_READJUST = 35;
 
 // Movement Variabels defined
@@ -186,6 +186,7 @@ task main(){
 
 	drawInfo(direction);
 
+	sleep(390000);
 }
 
 
