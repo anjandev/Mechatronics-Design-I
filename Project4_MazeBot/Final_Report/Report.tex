@@ -35,34 +35,114 @@
 \subsection{1\ts{st} Iteration}
 
 Should be achieved by:
+\begin{itemize}
+\item Robot moves forward exactly one cell length and turns 90 $^{\circ}$ accurately\\
+This is the most important asset of our robot. By ensuring accurate movement, we limit the need to readjust in each cell.
+\item Robot follows right wall\\
+This is the algorithm needed to find the unique solution to the maze. Once movement is implemented, we can just build on top of it to collect more data as we move through the maze. 
+\end{itemize}
+
+Should be achieved by:
 \subsection{2\ts{nd} Iteration}
 
 Should be achieved by:
+\begin{itemize}
+\item Robot tracks its orientation and location in maze\\
+This is dependency for most of the other requirements. By tracking movement in the cell, we are able know when we have reached our goal and where to store cell information in our 2-D array.
+\item Robot beeps when reached target
+\item Robot stores wall information, visited/unvisited status and orientation at entry in 2-D array.\\
+This is required for more advanced algorithm features we wish to implement such as having the robot not check the same wall twice and displaying current location and wall information graphically. However, we chose to implement it now because it was a major criteria requirement. 
+\end{itemize}
+
 \subsection{3\ts{rd} Iteration}
 
 Should be achieved by:
+\begin{itemize}
+\item Robot returns with shortest path\\
+Since we know the route we took to get to our final location, we can now implement the cancelling algorithm (described in detail at section ).
+\item Robot displays current location graphically on screen\\
+We implemented this now so that we could more easily test our algorithm so far as we are reaching the end of our allotted project development time. The last project feature we wanted to implement was to not check the same wall twice. We thought that this would be difficult to implement and as such improved our debugging capabilities before continuing.
+\end{itemize}
 
+\subsection{4\ts{th} Iteration}
+Should be achieved by:
 
+\begin{itemize}
+\item Improve algorithm such that robot doesn't check same wall twice\\
+The premise behind this optimization is that imagine that we are in a cell with a wall to the South. If we've checked that there is a wall toward the south, we know that in the cell below our current cell, there is a wall to the North. The most general case will be programmed and described in section. This has two major advantages: we do not have to waste time turning and we do not incur extra error because of unneeded turning.
+\end{itemize}
 
 \newpage
 \section{Mechanical Design of MazeBot}
+\subsection{Top Level Mechanical Structure and Specifications}
+Our robot needed very accurate movement in order to be successful in the maze. This criteria depends heavily on whether the motor encoders report accurate values to the algorithm. In order to achieve this, we had to ensure:
+
+\begin{itemize}
+\item The wheels do not slip
+\item The robot does not hit walls
+\item The drive system is sturdy 
+\item The Gears are securely held in place and make proper contact. 
+\end{itemize}
+However, there is a limit to how much we can to do minimize mechanical error in movement. As a result, we will have to readjust after a certain number of cells. This is done by driving into the wall, turning 90$^{\circ}$ and driving into the wall again. However, having to readjust too often is problematic as this adds time to our average time in each cell which is a major criteria point. As a result, we hope to minimize the amount of times we need to readjust by maximizing the accuracy of the mechanical system. 
+
+\newpage
 
 \subsection{First Iteration}
 \textbf{Goals:}
 \begin{itemize}
-\item Accurate movement
+\item Able to go 3 cells without needing to readjust
+\item Able to turn 90$^{\circ}$ accurately.
 \end{itemize}
-\underline{\textbf{Mechanical Drawing}}\\
+\textbf{Mechanical Drawing}\\
+
+
+
+
+
+
+
+
+
+
 
 \underline{\textbf{Observations \& Measurements}}\\\\
+\textbf{Goal}: Able to go 3 cells without needing to readjust\\
+\textbf{Failed}: Needed to readjust every second cell\\\\
+\textbf{Goal}: Able to turn 90$^{\circ}$ accurately.\\
+Test - An error of even $ \pm 1^{\circ}$ will cause accumulate to a significant error when traversing cells. However, error in turning is hard to notice. Therefore, we chose to have robot turn 90$^{\circ}$ 8 times in place in order to make any mechanical failure obvious because any error would accumulate significantly. \\
+\textbf{Failed}: Robot had error of $ \pm 20^{\circ}$\\\\
+\textbf{\underline{Reasons for Test Failures:}}\\
 \textbf{Structural Integrity of the Drive System}\\
 In order for more accurate movement, we added a high gear ratio. However, since we added the high gear ratio, we are unable to find space to properly secure the left and right drive wheels. When testing, we found one wheel to slipped forward and the other to slipped back when turning which defeats the accuracy of the encoder. Because of this, we are unable to meet our goal of accurate movement.\\\\
 \textbf{Robot is too large.}\\
-Since the brick is upright, it is top heavy. We needed two rods in the back and one metal ball in the front in order to balance the robot. The additions of the two rods and one metal ball remove the spacial advantage of having the robot's brick be upright. Even though the dimensions of the robot are within the size of one square, it leaves very little room for error. As such, the robot begins to run into walls after the 3\ts{rd} turn.
+Since the brick is upright, it is top heavy. We needed two rods in the back and one metal ball in the front in order to balance the robot. The additions of the two rods and one metal ball negates the spacial advantage of having the robot's brick be upright. Even though the dimensions of the robot are within the size of one square, it leaves very little room for error. As such, the robot begins to run into walls after the 2\ts{nd} turn.\\\\
+\textbf{Wheels are too big}\\
+In order for the motor encoder to be accurate, the wheels must not slip. In order to maximize friction, we decided to use the largest wheels in the set. However. the extra friction with the ground from the larger wheels is not worth the extra size added to the robot. When we replaced the large wheels with smaller wheels, we noticed little to no change in accuracy of movement. 
 %SHOW DIMENSIONS AND DRIVE SYSTEM% 
-
+%IDK WHAT TABLES%
+\\\\
 \underline{\textbf{Conclusion}}\\
-In conclusion, we have decided for our next iteration to have the robot's brick be flat on the ground in order to ensure that we have enough room to properly secure our drive system. By properly securing the drive system we hope to not have to readjust every time we enter a cell.
+In conclusion, we have decided to no longer have our robot upright. This will allow us to have enough room to properly secure the drive system. This will allow us to ensure that the gears make proper contact and do slide forward or backward ensuring maximum encoder accuracy. By having the robot level with the table, we will be able to take out the additional support that we needed before to hold the bot upright. This will allow more room for error when turning and going into new cells.
+\newpage
+
+\subsection{Second Iteration}
+\textbf{Goals:}
+\begin{itemize}
+\item Able to go 3 cells without needing to readjust
+\item Able to turn 90$^{\circ}$ accurately.
+\end{itemize}
+\underline{\textbf{Observations \& Measurements}}\\\\
+\textbf{Goal}: Able to go 3 cells without needing to readjust\\
+\textbf{Passed}: Needed to readjust every fifth cell\\\\
+\textbf{Goal}: Able to turn 90$^{\circ}$ accurately.\\
+Test - An error of even $ \pm 1^{\circ}$ will cause accumulate to a significant error when traversing cells. However, error in turning is hard to notice. Therefore, we chose to have robot turn 90$^{\circ}$ 8 times in place in order to make any mechanical failure obvious because any error would accumulate significantly. \\
+\textbf{Passed}: Robot had an unnoticeable error even after eight turns\\\\
+\textbf{\underline{Reasons for Test Successes:}}\\
+% is hypotheses right
+Our hypotheses were correct. By securing the gears, we were able to make the motor encoders much more accurate and as a result, have the robot move in much more controlled way. Furthermore, having the robot much more compact allowed the system to have a larger tolerance for error.\\\\
+\underline{\textbf{Conclusion}}\\
+After much contemplation, we have decided that this is the best design. The need to readjust cannot be avoided because of the uncertainty in turning caused by the legos flexing and backlash in the gears. In order to further reduce the error, we have decided to make the algorithm for the robot as efficient as possible. An examples of this is to avoid turning to check for walls as much as possible because turning is our least accurate movement.
+
 
 \newpage
 
