@@ -10,20 +10,6 @@
 \usepackage{graphicx}
 \begin{document}
 
-%% This is Final Report for MSE 110
-%	Must be single spaced which I think it is right
-%	Printed on BOTH pages
-%	Include a listing of the program 
-%	Submit all the project files on canvas
-%	Use the cover paper provided on canvas (I made the file)
-%	include a link to the project demonstration video (Maybe use youtube or google drive
-
-%% Structure of the report (Refer to the document 'Final Project Report Instruction.pdf')
-%	Progress section
-%	Mechanical Design
-%	Software Design 
-
-
 \maketitle
 
 \tableofcontents
@@ -31,10 +17,16 @@
 \newpage
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%															%%
+%% 							Section 1    					%%
+%% 															%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{Progress Report}
 \subsection{1\ts{st} Iteration}
-
-Should be achieved by:
+Should be achieved by: July 12, 2016
 \begin{itemize}
 \item Robot moves forward exactly one cell length and turns 90 $^{\circ}$ accurately\\
 This is the most important feature of our robot. By ensuring accurate movement, we limit the need to readjust in each cell.
@@ -43,8 +35,7 @@ This is the algorithm needed to find the unique solution to the maze. Once movem
 \end{itemize}
 
 \subsection{2\ts{nd} Iteration}
-
-Should be achieved by:
+Should be achieved by: July 12, 2016
 \begin{itemize}
 \item Robot tracks its orientation and location in maze\\
 This is dependency for most of the other requirements. By tracking movement in the cell, we are able to know when we have reached our goal and where to store cell information in our 2-D array.
@@ -54,8 +45,7 @@ This is required for more advanced algorithm features we wish to implement such 
 \end{itemize}
 
 \subsection{3\ts{rd} Iteration}
-
-Should be achieved by:
+Should be achieved by: July 19, 2016
 \begin{itemize}
 \item Robot returns with shortest path\\
 Since we know the route we took to get to our final location, we can now implement the cancelling algorithm (described in detail at \textbf{section 3.16}).
@@ -64,14 +54,21 @@ We implemented this now so that we could more easily test our algorithm. The las
 \end{itemize}
 
 \subsection{4\ts{th} Iteration}
-Should be achieved by:
-
+Should be achieved by: July 26, 2016
 \begin{itemize}
 \item Improve algorithm such that robot doesn't check same wall twice\\
 The premise behind this optimization is that imagine that we are in a cell with a wall to the South. If we've checked that there is a wall toward the south, we know that in the cell below our current cell, there is a wall to the North. The most general case will be programmed and described in section 3. This has two major advantages: we do not have to waste time turning and we do not incur extra error because of unneeded turning.
 \end{itemize}
-
 \newpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%															%%
+%% 							Section 2    					%%
+%% 															%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{Mechanical Design of MazeBot}
 \subsection{Top Level Mechanical Structure and Specifications}
 Our robot needed very accurate movement in order to be successful in the maze. This criteria depends heavily on whether or not the motor encoders report accurate values to the algorithm. In order to achieve this, we had to ensure:
@@ -83,14 +80,16 @@ Our robot needed very accurate movement in order to be successful in the maze. T
 \item The gears are securely held in place and make proper contact. 
 \end{itemize}
 However, there is a limit to how much we can to do minimize mechanical error in movement. As a result, we will have to readjust after a certain number of cells. This is done by driving into the wall, turning 90$^{\circ}$ and driving into the wall again. However, having to readjust too often is problematic as this adds time to our average time in each cell which is a major criteria point. As a result, we hope to minimize the amount of times we need to readjust by maximizing the accuracy of the mechanical system. 
-
 \newpage
 
 \subsection{First Iteration}
-\textbf{Goals:}
+
 \begin{itemize}
-\item Able to go 3 cells without needing to readjust
-\item Able to turn 90$^{\circ}$ accurately.
+\item \textbf{Goals:}
+	\begin{itemize}
+	\item Able to go 3 cells without needing to readjust
+	\item Able to turn 90$^{\circ}$ accurately.
+	\end{itemize}
 \end{itemize}
 \begin{figure}[htp]
 \centering
@@ -108,31 +107,49 @@ However, there is a limit to how much we can to do minimize mechanical error in 
 \caption{First Iteration Side View}\label{Side View}
 \endminipage
 \end{figure}
-\underline{\textbf{Observations \& Measurements}}\\\\
-\textbf{Goal}: Able to go 3 cells without needing to readjust\\
-\textbf{Failed}: Needed to readjust every second cell\\\\
-\textbf{Goal}: Able to turn 90$^{\circ}$ accurately.\\
-Test - An error of even $ \pm 1^{\circ}$ will cause accumulate to a significant error when traversing cells. However, error in turning is hard to notice. Therefore, we chose to have robot turn 90$^{\circ}$ 8 times in place in order to propogate any error significantly. \\
-\textbf{Failed}: Robot had error of $ \pm 20^{\circ}$\\\\
-\textbf{\underline{Reasons for Test Failures:}}\\
-\textbf{Structural Integrity of the Drive System}\\
-In order for more accurate movement, we added a high gear ratio. However, since we added the high gear ratio, we are unable to find space to properly secure the left and right drive wheels. When testing, we found one wheel to slipped forward and the other to slipped back when turning which defeats the accuracy of the encoder. Because of this, we are unable to meet our goal of accurate movement.\\\\
-\textbf{Robot is too large.}\\
-Since the brick is upright, it is top heavy. We needed two rods in the back and one metal ball in the front in order to balance the robot. The additions of the two rods and one metal ball negates the spacial advantage of having the robot's brick be upright. Even though the dimensions of the robot are within the size of one square, it leaves very little room for error. As such, the robot begins to run into walls after the 2\ts{nd} turn.\\\\
-\textbf{Wheels are too big}\\
-In order for the motor encoder to be accurate, the wheels must not slip. In order to maximize friction, we decided to use the largest wheels in the set. However. the extra friction with the ground from the larger wheels is not worth the extra size added to the robot. When we replaced the large wheels with smaller wheels, we noticed little to no change in accuracy of movement. 
-%SHOW DIMENSIONS AND DRIVE SYSTEM% 
-%IDK WHAT TABLES%
-\\\\
-\underline{\textbf{Conclusion}}\\
+\begin{figure}[!tbp]
+  \centering
+  \begin{minipage}[b]{0.33\textwidth}
+\includegraphics[scale=0.18]{images/Hardware_Mechanical/First_Iteration_Front.jpg}
+\caption{First Iteration Front View}\label{fig:Front View}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+\includegraphics[scale=0.18]{images/Hardware_Mechanical/First_Iteration_Left.jpg}
+\caption{First Iteration Side View}\label{Side View}
+  \end{minipage}
+\end{figure}
+\newpage
+\begin{itemize}
+\item \textbf{Observations \& Measurements}
+	\begin{itemize}
+	\item \textbf{Goal}: Able to go 3 cells without needing to readjust
+	\item \textbf{Failed}: Needed to readjust every second cell
+	\item \textbf{Goal}: Able to turn 90$^{\circ}$ accurately.\\
+	Test - An error of even $ \pm 1^{\circ}$ will cause accumulate to a significant error when traversing cells. However, error in turning is hard to notice. Therefore, we chose to have robot turn 90$^{\circ}$ 8 times in place in order to propogate any error significantly.
+	\item \textbf{Failed}: Robot had error of $ \pm 20^{\circ}$
+	\end{itemize}
+\item \textbf{Reasons for Test Failures}
+	\begin{itemize}
+	\item \textbf{Structural Integrity of the Drive System}\\
+	In order for more accurate movement, we added a high gear ratio. However, since we added the high gear ratio, we are unable to find space to properly secure the left and right drive wheels. When testing, we found one wheel to slipped forward and the other to slipped back when turning which defeats the accuracy of the encoder. Because of this, we are unable to meet our goal of accurate movement.
+	\item \textbf{Robot is too large.}\\
+	Since the brick is upright, it is top heavy. We needed two rods in the back and one metal ball in the front in order to balance the robot. The additions of the two rods and one metal ball negates the spacial advantage of having the robot's brick be upright. Even though the dimensions of the robot are within the size of one square, it leaves very little room for error. As such, the robot begins to run into walls after the 2\ts{nd} turn.
+	\item \textbf{Wheels are too big}\\
+	In order for the motor encoder to be accurate, the wheels must not slip. In order to maximize friction, we decided to use the largest wheels in the set. However. the extra friction with the ground from the larger wheels is not worth the extra size added to the robot. When we replaced the large wheels with smaller wheels, we noticed little to no change in accuracy of movement.
+	\end{itemize}
+\item \textbf{Conclusion}\\
 In conclusion, we have decided to no longer have our robot upright. This will allow us to have enough room to properly secure the drive system. This will allow us to ensure that the gears make proper contact and do slide forward or backward ensuring maximum encoder accuracy. By having the robot level with the table, we will be able to take out the additional support that we needed before to hold the bot upright. This will allow more room for error when turning and going into new cells.
+\end{itemize}
 \newpage
 
 \subsection{Second Iteration}
-\textbf{Goals:}
 \begin{itemize}
-\item Able to go 3 cells without needing to readjust
-\item Able to turn 90$^{\circ}$ accurately.
+\item \textbf{Goals:}
+	\begin{itemize}
+	\item Able to go 3 cells without needing to readjust
+	\item Able to turn 90$^{\circ}$ accurately.
+	\end{itemize}
 \end{itemize}
 \begin{figure}[htp]
 \centering
@@ -150,24 +167,42 @@ In conclusion, we have decided to no longer have our robot upright. This will al
 \caption{Second Iteration Side View}\label{Side View}
 \endminipage
 \end{figure}
-\underline{\textbf{Observations \& Measurements}}\\\\
-\textbf{Goal}: Able to go 3 cells without needing to readjust\\
-\textbf{Passed}: Needed to readjust every fifth cell\\\\
-\textbf{Goal}: Able to turn 90$^{\circ}$ accurately.\\
-est - An error of even $ \pm 1^{\circ}$ will cause accumulate to a significant error when traversing cells. However, error in turning is hard to notice. Therefore, we chose to have robot turn 90$^{\circ}$ 8 times in place in order to propogate any error significantly. \\
-\textbf{Passed}: Robot had an unnoticeable error even after eight turns\\\\
-\textbf{\underline{Reasons for Test Successes:}}\\
-% is hypotheses right
-Our hypotheses were correct. By securing the gears, we were able to make the motor encoders much more accurate and as a result, have the robot move in much more controlled way. Furthermore, having the robot much more compact allowed the system to have a larger tolerance for error.\\\\
-\underline{\textbf{Conclusion}}\\
+\begin{figure}[htp]
+\centering
+\captionsetup{justification=centering}
+\minipage{0.24\textwidth}
+\includegraphics[scale=0.13]{images/Hardware_Mechanical/Third_Iteration_3D.jpg}
+\caption{Second Iteration Drive System}\label{fig:Drive System}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+\includegraphics[scale=0.17]{images/Hardware_Mechanical/Third_Iteration_Front.jpg}
+\caption{Second Iteration Front View}\label{fig:Front View}
+\endminipage\hfill
+\minipage{0.27\textwidth}
+\includegraphics[scale=0.17]{images/Hardware_Mechanical/Third_Iteration_Left.jpg}
+\caption{Second Iteration Side View}\label{Side View}
+\endminipage
+\end{figure}
+\newpage
+\begin{itemize}
+\item \textbf{Observations \& Measurements}
+	\begin{itemize}
+	\item \textbf{Goal}: Able to go 3 cells without needing to readjust
+ 	\item \textbf{Passed}: Needed to readjust every fifth cell
+ 	\item \textbf{Goal}: Able to turn 90$^{\circ}$ accurately.\\
+	Test - An error of even $ \pm 1^{\circ}$ will cause accumulate to a significant error when traversing cells. However, error in turning is hard to notice. Therefore, we chose to have robot turn 90$^{\circ}$ 8 times in place in order to propogate any error significantly. 
+	\item \textbf{Passed}: Robot had an unnoticeable error even after eight turns
+	\end{itemize}
+\item \textbf{Reasons for Test Successes}\\
+Our hypotheses were correct. By securing the gears, we were able to make the motor encoders much more accurate and as a result, have the robot move in much more controlled way. Furthermore, having the robot much more compact allowed the system to have a larger tolerance for error.
+\item \textbf{Conclusion}\\
 After much contemplation, we have decided that this is the best design. The need to readjust cannot be avoided because of the uncertainty in turning caused by the legos flexing and backlash in the gears. In order to further reduce the error, we have decided to make the algorithm for the robot as efficient as possible. An examples of this is to avoid turning to check for walls as much as possible because turning is our least accurate movement.
-
-
+\end{itemize}
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%															%%
-%% 					Do not remove the gap 					%%
+%% 							Section 3    					%%
 %% 															%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -283,6 +318,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		#define CELL_WIDTH_MIDDLE (CELL_WIDTH /2)
 	\end{verbatim}
 \end{itemize}
+\newpage
 
 %% 3.4
 
@@ -317,6 +353,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		int timesForwardWithoutReadjust = 0;
 	\end{verbatim}  
 \end{itemize}
+\newpage
 
 %% 3.5
 
@@ -357,7 +394,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 	\end{verbatim}
 \begin{figure}[htp]
 \centering
-\includegraphics[scale=0.516]{images/Software_Flowchart/Drawing_Function.png}
+\includegraphics[scale=0.57]{images/Software_Flowchart/Drawing_Function.png}
 \caption{Flow Chart for Displaying Function}
 \label{}
 \end{figure}
@@ -386,7 +423,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 	\end{verbatim}
 \begin{figure}[htp]
 \centering
-\includegraphics[scale=0.56]{images/Software_Flowchart/Moving_Forward.png}
+\includegraphics[scale=0.52]{images/Software_Flowchart/Moving_Forward.png}
 \caption{Flow Chart for Moving Forward}
 \label{}
 \end{figure}	
@@ -495,7 +532,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 	\end{verbatim}
 \begin{figure}[htp]
 \centering
-\includegraphics[scale=0.41]{images/Software_Flowchart/writeWall.png}
+\includegraphics[scale=0.4]{images/Software_Flowchart/writeWall.png}
 \caption{Flow Chart for Storing Data Function}
 \label{}
 \end{figure}
@@ -556,7 +593,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item Global variables and constants used are
+	\item Global constants used are
 	\begin{verbatim}
 		NORTH
 		SOUTH
@@ -776,7 +813,6 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 	\begin{verbatim}
 		int direction = NORTH;
 	\end{verbatim}
-	
 	\item Global variables and constants used are
 	\begin{verbatim}
 		MAZE_WIDTH
@@ -796,31 +832,634 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		drawInfo(int direction);
 	\end{verbatim}
 	\end{itemize}
- 
-
+\item Flow chart is on the next page
 \end{itemize}
-Flow chart is on the next page.
-
 \begin{figure}[htp]
 \centering
-\includegraphics[scale=0.51]{images/Software_Flowchart/task_main.png}
+\includegraphics[scale=0.7]{images/Software_Flowchart/task_main.png}
 \caption{Flow Chart of the Main Function}
 \label{}
 \end{figure}
 \newpage
 
-%% Do not remove the gap %%
 
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%															%%
+%% 							Section 4    					%%
+%% 															%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Appendix}
+Code for MazeBot
+\begin{verbatim}
+#define NOT_PRESENT 0
+#define PRESENT 1
+#define UNKNOWN 2
 
-Source of Code with brief comments
+float const DIST_BETWEEN_BOT_AND_WALL = 7.6;
+// Define directions using numbers
+#define NORTH 0
+#define EAST 1
+#define SOUTH 2
+#define WEST 3
 
+typedef struct{
+	int NWall;
+	int SWall;
+	int EWall;
+	int WWall;
+	int Visited;
+	int entryDir;
+}cell;
+
+// This is the Starting and End cell from the Demo
+int const START_ROW = 2;
+int const START_COL = 0;
+int const END_ROW = 3;
+int const END_COL = 4;
+//3034 - longest route
+
+int currentRow = START_ROW;
+int currentCol = START_COL;
+
+int const MILI_TO_BEEP_FOR = 200;
+int const FREQUENCY = 300;
+
+// Uncertainties due to integer division
+float const UNCERTAINTY_STRAIGHT = 19;
+float const UNCERTAINTY_ROT = 27;
+float const UNCERTAINTY_READJUST = 35;
+
+// Movement Constants defined
+float const ONE_ROTATION = 360 + UNCERTAINTY_STRAIGHT;
+float const QUARTER_ROTATION = 180 + UNCERTAINTY_ROT;
+
+float const SIZE_OF_ONE_CELL = 22.5425; //cm
+float const DRIVE_GEAR_RATIO = 5;
+float const DIAMETER_OF_WHEEL = 5.5; // cm
+float const CIRCUMFERENCE_OF_WHEEL = PI * DIAMETER_OF_WHEEL;
+
+
+// Speed Variable
+int const FORWARD = -100;
+int const BACKWARD = -FORWARD;
+
+// MAZE VARIABLES
+int const MAZE_WIDTH = 6;
+int const MAZE_HEIGHT = 4;
+int const LAST_MAZE_HEIGHT_INDEX = MAZE_HEIGHT - 1;
+int const LAST_MAZE_WIDTH_INDEX = MAZE_WIDTH - 1;
+cell Maze[MAZE_HEIGHT][MAZE_WIDTH];
+
+int entered[MAZE_WIDTH*MAZE_HEIGHT*4];
+int lastEnteredIdx = 0;
+
+#define SCREEN_HEIGHT 127
+#define	SCREEN_WIDTH 177
+#define CELL_HEIGHT	(SCREEN_HEIGHT / MAZE_HEIGHT)
+#define CELL_WIDTH (SCREEN_HEIGHT / MAZE_WIDTH)
+
+#define CELL_HEIGHT_MIDDLE (CELL_HEIGHT / 2)
+#define CELL_WIDTH_MIDDLE (CELL_WIDTH / 2)
+
+// MISC Constants
+int const MILLISECS_TO_DRIVE_INTO_WALL = 1100;
+
+// Call functions
+void goFwdCell(int direction);
+int Turn90CW(int direction);
+int Turn90CCW(int direction);
+int MovementWithSensor(int direction);
+void reverseDirection();
+void deleteDuplicates();
+int goingBackFastestRoute(int direction);
+void drawInfo(int direction);
+void reAdjustCCW(int direction);
+void reAdjustCW(int direction);
+int findLeft(int currentDirection);
+int findRight(int currentDirection);
+int findBackDir (int currentDirection);
+int isThereWallInDir(int wallDir);
+void reAdjustWayBack(int direction);
+
+int const CELLS_TO_READJUST_AFTER = 3;
+int timesForwardWithoutReadjust = 0;
+
+
+
+
+
+
+
+void drawInfo(int direction){
+	//drawRect(Left, Top, Right, Bottom);
+	eraseDisplay();
+
+	for(int r = 0; r < MAZE_HEIGHT; r++){
+		for(int c = 0; c < MAZE_WIDTH; c++){
+
+			if(Maze[r][c].SWall == PRESENT){
+				drawLine(c*CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT);
+			}
+			if(Maze[r][c].NWall == PRESENT){
+				drawLine(c*CELL_WIDTH,r*CELL_HEIGHT + CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT 
+				+ CELL_HEIGHT);
+			}
+			if(Maze[r][c].WWall == PRESENT){
+				drawLine(c*CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH, r*CELL_HEIGHT + CELL_HEIGHT);
+			}
+			if(Maze[r][c].EWall == PRESENT){
+				drawLine(c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH, r*CELL_HEIGHT 
+				+ CELL_HEIGHT);
+			}
+
+		}
+	}
+
+	if(direction == NORTH){
+		displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT 
+		+ CELL_HEIGHT_MIDDLE, "^");
+	}
+	else if(direction == EAST){
+		displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT 
+		+ CELL_HEIGHT_MIDDLE, ">");
+	}
+	else if(direction == WEST){
+		displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT 
+		+ CELL_HEIGHT_MIDDLE, "<");
+	}
+	else if(direction == SOUTH){
+		displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT 
+		+ CELL_HEIGHT_MIDDLE, "v");
+	}
+}
+
+
+
+
+
+
+
+
+
+task main(){
+
+	for (int c = 0; c < MAZE_WIDTH; c++){
+		for (int r = 0; r < MAZE_HEIGHT; r++){
+			Maze[r][c].Visited = false;
+			Maze[r][c].NWall = UNKNOWN;
+			Maze[r][c].SWall = UNKNOWN;
+			Maze[r][c].EWall = UNKNOWN;
+			Maze[r][c].WWall = UNKNOWN;
+		}
+	}
+
+	// Assigning walls [row][col]
+	for (int c = 0; c < MAZE_WIDTH; c++){
+		Maze[0][c].SWall = PRESENT;
+		Maze[LAST_MAZE_HEIGHT_INDEX][c].NWall = PRESENT;
+	}
+
+	for (int r = 0; r < MAZE_HEIGHT; r++){
+		Maze[r][0].WWall = PRESENT;
+		Maze[r][LAST_MAZE_WIDTH_INDEX].EWall = PRESENT;
+
+	}
+
+	int direction = NORTH;
+
+	Maze[currentRow][currentCol].entryDir = direction;
+	Maze[currentRow][currentCol].Visited = true;
+
+	while(currentRow != END_ROW || currentCol != END_COL){
+		direction = MovementWithSensor(direction);
+		entered[lastEnteredIdx] = direction;
+		lastEnteredIdx++;
+	}
+
+	playTone(FREQUENCY, MILI_TO_BEEP_FOR);
+
+
+	deleteDuplicates();
+
+	sleep(MILI_TO_BEEP_FOR * 10);
+
+	reverseDirection();
+	direction = goingBackFastestRoute(direction);
+
+	drawInfo(direction);
+
+	sleep(390000);
+}
+
+
+void deleteDuplicates(){
+	int idx = -1;
+
+	while(idx < lastEnteredIdx){
+		idx++;
+
+		if(abs(entered[idx] - entered[idx + 1]) == 2){
+			for(int moveOGTo = idx; moveOGTo <= lastEnteredIdx - 2; moveOGTo++){
+				entered[moveOGTo] = entered[moveOGTo + 2];
+			}
+
+			lastEnteredIdx = lastEnteredIdx - 2;
+			idx = -1;
+		}
+	}
+}
+
+void reverseDirection(){
+	for(int idx = 0; idx <= lastEnteredIdx; idx++){
+		if(entered[idx]==EAST){
+			entered[idx] = WEST;
+		}
+		else if(entered[idx]==SOUTH){
+			entered[idx] = NORTH;
+		}
+		else if(entered[idx]==WEST){
+			entered[idx] = EAST;
+		}
+		else if(entered[idx]==NORTH){
+			entered[idx] = SOUTH;
+		}
+	}
+}
+
+int goingBackFastestRoute(int direction){
+
+	for(int idx = lastEnteredIdx - 1; idx >= 0; idx--){
+		reAdjustWayBack(direction);
+		int turnNum = entered[idx] - direction;
+
+		if(abs(turnNum) == 2){
+			direction = Turn90CW(direction);
+			direction = Turn90CW(direction);
+		}
+		else if(turnNum == 3){
+			direction = Turn90CCW(direction);
+		}
+		else if(turnNum == -3){
+			direction = Turn90CW(direction);
+		}
+		else if(turnNum == 1){
+			direction = Turn90CW(direction);
+		}
+		else if(turnNum == -1){
+			direction = Turn90CCW(direction);
+		}
+
+		goFwdCell(direction);
+
+	}
+
+	return direction;
+}
+
+void goFwdCell(int direction){
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION, FORWARD);
+
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+	}
+	if (direction == NORTH){
+		Maze[currentRow][currentCol].NWall = false;
+		currentRow++;
+		Maze[currentRow][currentCol].SWall = false;
+	}
+	else if (direction == SOUTH){
+		Maze[currentRow][currentCol].SWall = false;
+		currentRow--;
+		Maze[currentRow][currentCol].NWall = false;
+	}
+	else if (direction == EAST){
+		Maze[currentRow][currentCol].EWall = false;
+		currentCol++;
+		Maze[currentRow][currentCol].WWall = false;
+	}
+	else if (direction == WEST){
+		Maze[currentRow][currentCol].WWall = false;
+		currentCol--;
+		Maze[currentRow][currentCol].EWall = false;
+	}
+
+	Maze[currentRow][currentCol].entryDir = direction;
+	Maze[currentRow][currentCol].Visited = true;
+
+	timesForwardWithoutReadjust++;
+}
+
+
+
+
+
+
+int Turn90CCW(int direction){
+	setMotorSyncEncoder(leftDrive, rightDrive, -100, QUARTER_ROTATION * DRIVE_GEAR_RATIO, FORWARD);
+
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+	}
+
+	direction = findLeft(direction);
+
+	drawInfo(direction);
+	return direction;
+
+}
+
+int Turn90CW(int direction){
+	setMotorSyncEncoder(leftDrive, rightDrive, 100, QUARTER_ROTATION * DRIVE_GEAR_RATIO, FORWARD);
+
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+	}
+
+	direction = findRight(direction);
+
+	drawInfo(direction);
+	return direction;
+}
+
+int thereIsWall(){
+	if(getUSDistance(distance)<=DIST_BETWEEN_BOT_AND_WALL || getUSDistance(distance)==255){
+		return 1;
+	}
+
+	return 0;
+}
+
+void writeWall(int direction){
+	if(direction == NORTH && thereIsWall()){
+		Maze[currentRow][currentCol].NWall = PRESENT;
+		if(currentRow + 1 <= LAST_MAZE_HEIGHT_INDEX){
+			Maze[currentRow + 1][currentCol].SWall = PRESENT;
+		}
+	}
+	else if(direction == SOUTH && thereIsWall()){
+		Maze[currentRow][currentCol].SWall = PRESENT;
+		if(currentRow - 1 >= 0){
+			Maze[currentRow - 1][currentCol].NWall = PRESENT;
+		}
+	}
+	else if(direction == EAST && thereIsWall()){
+		Maze[currentRow][currentCol].EWall = PRESENT;
+		if(currentCol + 1 <= LAST_MAZE_WIDTH_INDEX){
+			Maze[currentRow][currentCol + 1].WWall = PRESENT;
+		}
+	}
+	else if(direction == WEST && thereIsWall()){
+		Maze[currentRow][currentCol].WWall = PRESENT;
+		if(currentCol - 1 >= 0){
+			Maze[currentRow][currentCol - 1].EWall = PRESENT;
+		}
+	}
+	
+	else if(direction == NORTH && !thereIsWall()){
+		Maze[currentRow][currentCol].NWall = false;
+		if(currentRow + 1 <= LAST_MAZE_HEIGHT_INDEX){
+			Maze[currentRow + 1][currentCol].SWall = false;
+		}
+	}
+	else if(direction == SOUTH && !thereIsWall()){
+		Maze[currentRow][currentCol].SWall = false;
+		if(currentRow - 1 >= 0){
+			Maze[currentRow - 1][currentCol].NWall = false;
+		}
+	}
+	else if(direction == EAST && !thereIsWall()){
+		Maze[currentRow][currentCol].EWall = false;
+		if(currentCol + 1 <= LAST_MAZE_WIDTH_INDEX){
+			Maze[currentRow][currentCol + 1].WWall = false;
+		}
+	}
+	else if(direction == WEST && !thereIsWall()){
+		Maze[currentRow][currentCol].WWall = false;
+		if(currentCol - 1 >= 0){
+			Maze[currentRow][currentCol - 1].EWall = false;
+		}
+	}	
+}
+
+// Checking order, North(0), East(1), West(3) then South(2)
+// right, north, left, back
+int MovementWithSensor(int direction){
+
+	int enteringDirectionWall = thereIsWall();
+	writeWall(direction);
+	reAdjustWayBack(direction);
+	
+	// turn to check if wall is right
+	if(isThereWallInDir(findRight(direction)) == UNKNOWN || isThereWallInDir(findRight(direction)) == NOT_PRESENT){
+		direction = Turn90CW(direction);
+		writeWall(direction);
+		
+		// go right if no wall right
+		if(!thereIsWall()){
+			goFwdCell(direction);
+			return direction;
+		}
+		else{
+			direction = Turn90CCW(direction);
+			reAdjustWayBack(direction);
+		}
+	}		
+	
+	if(!enteringDirectionWall){
+			goFwdCell(direction);
+			return direction;
+	}
+	
+	// At this point, we know there r walls on the R and N
+	// We are facing N 
+	
+	// if we know there is wall left, go thru back
+	if(isThereWallInDir(findLeft(direction)) == UNKNOWN || isThereWallInDir(findLeft(direction)) == NOT_PRESENT){
+		direction = Turn90CCW(direction);
+		writeWall(direction);
+						
+		if(!thereIsWall()){
+			goFwdCell(direction);
+			return direction;
+		}
+		else{
+			reAdjustWayBack(direction);
+			direction = Turn90CCW(direction);
+			goFwdCell(direction);
+			return direction;
+		}
+	
+	}
+	else{
+		reAdjustWayBack(direction);
+		direction = Turn90CCW(direction);
+		direction = Turn90CCW(direction);
+		goFwdCell(direction);
+		return direction;
+	}
+	
+	sleep(1000000);
+}
+
+
+
+
+
+
+
+void reAdjustCCW(int direction){
+
+	direction = Turn90CCW(direction);
+
+	motor[rightDrive] = FORWARD;
+	motor[leftDrive] = FORWARD;
+	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
+
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
+
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+	}
+
+	Turn90CW(direction);
+
+	motor[rightDrive] = FORWARD;
+	motor[leftDrive] = FORWARD;
+	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
+
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
+
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+	}
+
+	timesForwardWithoutReadjust = 0;
+
+
+}
+
+void reAdjustCW(int direction){
+
+
+	direction = Turn90CW(direction);
+
+	motor[rightDrive] = FORWARD;
+	motor[leftDrive] = FORWARD;
+	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
+
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
+
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+	}
+
+	Turn90CCW(direction);
+
+	motor[rightDrive] = FORWARD;
+	motor[leftDrive] = FORWARD;
+	sleep(MILLISECS_TO_DRIVE_INTO_WALL);
+
+	setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
+
+	repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
+
+	}
+	timesForwardWithoutReadjust = 0;
+}
+
+void reAdjustWayBack(int direction){
+	int enteringWall = thereIsWall();
+
+	if(timesForwardWithoutReadjust >=  CELLS_TO_READJUST_AFTER){
+		if(isThereWallInDir(findLeft(direction)) == PRESENT && enteringWall){
+			reAdjustCCW(direction);
+		}
+		else if(isThereWallInDir(findLeft(direction)) == PRESENT && isThereWallInDir(findBackDir(direction)) == PRESENT){
+			direction = Turn90CCW(direction);
+			reAdjustCCW(direction);
+			direction = Turn90CW(direction);
+		}
+		else if(enteringWall && isThereWallInDir(findRight(direction)) == PRESENT){
+			reAdjustCW(direction);
+		}
+		else if(isThereWallInDir(findRight(direction)) == PRESENT && isThereWallInDir(findBackDir(direction)) == PRESENT){
+			direction = Turn90CW(direction);
+			reAdjustCW(direction);
+			direction = Turn90CCW(direction);
+		}
+	}
+	
+	
+}
+
+int findBackDir (int currentDirection){
+	if(currentDirection == NORTH){
+		return SOUTH;
+	}
+	else if(currentDirection == EAST){
+		return WEST;
+	}
+	else if(currentDirection == WEST){
+		return EAST;
+	}
+
+	return NORTH;
+
+
+}
+
+int findRight(int currentDirection){
+
+	if(currentDirection == WEST){
+		return NORTH;
+	}
+	else{
+		return currentDirection + 1;
+	}
+
+}
+
+int findLeft(int currentDirection){
+
+	if(currentDirection == NORTH){
+		return WEST;
+	}
+	else{
+		return currentDirection - 1;
+	}
+
+}
+
+int isThereWallInDir(int wallDir){
+	if(wallDir == NORTH && Maze[currentRow][currentCol].NWall == PRESENT){
+		return PRESENT;
+	}
+	else if(wallDir == SOUTH && Maze[currentRow][currentCol].SWall == PRESENT){
+		return PRESENT;
+	}
+	else if(wallDir == EAST && Maze[currentRow][currentCol].EWall == PRESENT){
+		return PRESENT;
+	}
+	else	if(wallDir == WEST && Maze[currentRow][currentCol].WWall == PRESENT){
+		return PRESENT;
+	}
+	
+	if(wallDir == NORTH && Maze[currentRow][currentCol].NWall == UNKNOWN){
+		return UNKNOWN;
+	}
+	else if(wallDir == SOUTH && Maze[currentRow][currentCol].SWall == UNKNOWN){
+		return UNKNOWN;
+	}
+	else if(wallDir == EAST && Maze[currentRow][currentCol].EWall == UNKNOWN){
+		return UNKNOWN;
+	}
+	else	if(wallDir == WEST && Maze[currentRow][currentCol].WWall == UNKNOWN){
+		return UNKNOWN;
+	}
+	return NOT_PRESENT;
+}
+\end{verbatim}
 
 \end{document}
