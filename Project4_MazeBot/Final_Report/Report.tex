@@ -3,7 +3,7 @@
 \newcommand{\ts}{\textsuperscript}
 %Gummi|065|=)
 \date{}
-
+\usepackage{caption}
 %%%%% Please Check this section %%%%%
 \title{Table of Contents}
 
@@ -92,8 +92,22 @@ However, there is a limit to how much we can to do minimize mechanical error in 
 \item Able to go 3 cells without needing to readjust
 \item Able to turn 90$^{\circ}$ accurately.
 \end{itemize}
-\textbf{Mechanical Drawing}\\
-
+\begin{figure}[htp]
+\centering
+\captionsetup{justification=centering}
+\minipage{0.32\textwidth}
+\includegraphics[scale=0.80]{images/Hardware_Mechanical/First_Iteration_Design_Driving_System.png}
+\caption{First Iteration Drive System}\label{fig:Drive System}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+\includegraphics[scale=0.70]{images/Hardware_Mechanical/First_Iteration_Design_FrontView.png}
+\caption{First Iteration Front View}\label{fig:Front View}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+\includegraphics[scale=0.70]{images/Hardware_Mechanical/First_Iteration_Design_SideView.png}
+\caption{First Iteration Side View}\label{Side View}
+\endminipage
+\end{figure}
 \underline{\textbf{Observations \& Measurements}}\\\\
 \textbf{Goal}: Able to go 3 cells without needing to readjust\\
 \textbf{Failed}: Needed to readjust every second cell\\\\
@@ -120,6 +134,22 @@ In conclusion, we have decided to no longer have our robot upright. This will al
 \item Able to go 3 cells without needing to readjust
 \item Able to turn 90$^{\circ}$ accurately.
 \end{itemize}
+\begin{figure}[htp]
+\centering
+\captionsetup{justification=centering}
+\minipage{0.32\textwidth}
+\includegraphics[scale=0.80]{images/Hardware_Mechanical/Third_Iteration_Design_drive.png}
+\caption{Second Iteration Drive System}\label{fig:Drive System}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+\includegraphics[scale=0.70]{images/Hardware_Mechanical/Third_Iteration_Design_front.png}
+\caption{Second Iteration Front View}\label{fig:Front View}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+\includegraphics[scale=0.70]{images/Hardware_Mechanical/Third_Iteration_Design_side.png}
+\caption{Second Iteration Side View}\label{Side View}
+\endminipage
+\end{figure}
 \underline{\textbf{Observations \& Measurements}}\\\\
 \textbf{Goal}: Able to go 3 cells without needing to readjust\\
 \textbf{Passed}: Needed to readjust every fifth cell\\\\
