@@ -40,17 +40,17 @@ This is the algorithm needed to find the unique solution to the maze. Once movem
 Should be achieved by: July 12, 2016
 \begin{itemize}
 \item Robot tracks its orientation and location in maze\\
-This is dependency for most of the other requirements. By tracking movement in the cell, we are able to know when we have reached our goal and where to store cell information in our 2-D array.
+This is dependency for most of the other requirements. By tracking movement in the cell, we are able to know when we have reached our goal, how we reached it (in order to implement coming back shortest path) and where to store cell information in our 2-D array.
 \item Robot beeps when reached target
 \item Robot stores wall information, visited/unvisited status and orientation at entry in 2-D array.\\
-This is required for more advanced algorithm features we wish to implement such as having the robot not check the same wall twice and displaying current location and wall information graphically. However, we chose to implement it now because it was a major criteria requirement. 
+This is required for more advanced algorithm features we wish to implement such as having the robot not check the same wall twice. Furthermore, this was required in order to display current location and wall information graphically. We chose to implement it now because it was a major criteria requirement. 
 \end{itemize}
 
 \subsection{3\ts{rd} Iteration}
 Should be achieved by: July 19, 2016
 \begin{itemize}
 \item Robot returns with shortest path\\
-Since we know the route we took to get to our final location, we can now implement the cancelling algorithm (described in detail at \textbf{section 3.16}).
+Since we know the route we took to get to our final location, we can now implement the cancelling algorithm (described in detail in \textbf{Section 3.16}).
 \item Robot displays current location graphically on screen\\
 We implemented this now so that we could more easily test our algorithm. The last project feature we wanted to implement was to not check the same wall twice. We thought that this would be difficult to implement and as such improved our debugging capabilities before continuing.
 \end{itemize}
@@ -59,7 +59,7 @@ We implemented this now so that we could more easily test our algorithm. The las
 Should be achieved by: July 26, 2016
 \begin{itemize}
 \item Improve algorithm such that robot doesn't check same wall twice\\
-The premise behind this optimization is that imagine that we are in a cell with a wall to the South. If we've checked that there is a wall toward the south, we know that in the cell below our current cell, there is a wall to the North. The most general case will be programmed and described in section 3. This has two major advantages: we do not have to waste time turning and we do not incur extra error because of unneeded turning.
+The premise behind this optimization is that imagine that we are in a cell with a wall to the South. If we've checked that there is a wall toward the South, we know that in the cell below our current cell, there is a wall to the North. The most general case will be programmed and described in \textbf{Section 3}. This has two major advantages: we do not have to waste time turning and we do not incur extra error because of unneeded turning.
 \end{itemize}
 \newpage
 
@@ -81,7 +81,7 @@ Our robot needed very accurate movement in order to be successful in the maze. T
 \item The drive system is sturdy 
 \item The gears are securely held in place and make proper contact. 
 \end{itemize}
-However, there is a limit to how much we can to do minimize mechanical error in movement. As a result, we will have to readjust after a certain number of cells. This is done by driving into the wall, turning 90$^{\circ}$ and driving into the wall again. However, having to readjust too often is problematic as this adds time to our average time in each cell which is a major criteria point. As a result, we hope to minimize the amount of times we need to readjust by maximizing the accuracy of the mechanical system. 
+However, there is a limit to how much we can to do minimize mechanical error in movement. As a result, we will have to readjust after a certain number of cells. This is done by driving into the wall, turning 90$^{\circ}$ and driving into the wall again. However, having to readjust too often is problematic as this adds time to our average time in each cell which is a major criteria point. As a result, we hope to minimize the amount of times we needed to readjust by maximizing the accuracy of the mechanical system. 
 \newpage
 
 \subsection{First Iteration}
@@ -134,14 +134,14 @@ However, there is a limit to how much we can to do minimize mechanical error in 
 \item \textbf{Reasons for Test Failures}
 	\begin{itemize}
 	\item \textbf{Structural Integrity of the Drive System}\\
-	In order for more accurate movement, we added a high gear ratio. However, since we added the high gear ratio, we are unable to find space to properly secure the left and right drive wheels. When testing, we found one wheel to slipped forward and the other to slipped back when turning which defeats the accuracy of the encoder. Because of this, we are unable to meet our goal of accurate movement.
+	We are unable to find space to properly secure the left and right drive wheels. When testing, we found one wheel to slipped forward and the other to slipped back when turning which defeats the accuracy of the encoder. Because of this, we are unable to meet our goal of accurate movement.
 	\item \textbf{Robot is too large.}\\
 	Since the brick is upright, it is top heavy. We needed two rods in the back and one metal ball in the front in order to balance the robot. The additions of the two rods and one metal ball negates the spacial advantage of having the robot's brick be upright. Even though the dimensions of the robot are within the size of one square, it leaves very little room for error. As such, the robot begins to run into walls after the 2\ts{nd} turn.
 	\item \textbf{Wheels are too big}\\
 	In order for the motor encoder to be accurate, the wheels must not slip. In order to maximize friction, we decided to use the largest wheels in the set. However. the extra friction with the ground from the larger wheels is not worth the extra size added to the robot. When we replaced the large wheels with smaller wheels, we noticed little to no change in accuracy of movement.
 	\end{itemize}
 \item \textbf{Conclusion}\\
-In conclusion, we have decided to no longer have our robot upright. This will allow us to have enough room to properly secure the drive system. This will allow us to ensure that the gears make proper contact and do slide forward or backward ensuring maximum encoder accuracy. By having the robot level with the table, we will be able to take out the additional support that we needed before to hold the bot upright. This will allow more room for error when turning and going into new cells.
+In conclusion, we have decided to no longer have our robot upright. This will allow us to have enough room to properly secure the drive system. Which will allow us to ensure that the gears make proper contact and do slide forward or backward. This ensures maximum encoder accuracy. By having the robot level with the table, we will be able to take out the additional support that we needed before to hold the bot upright. This will allow more room for error when turning and going into new cells.
 \end{itemize}
 \newpage
 
@@ -198,7 +198,7 @@ In conclusion, we have decided to no longer have our robot upright. This will al
 \item \textbf{Reasons for Test Successes}\\
 Our hypotheses were correct. By securing the gears, we were able to make the motor encoders much more accurate and as a result, have the robot move in much more controlled way. Furthermore, having the robot much more compact allowed the system to have a larger tolerance for error.
 \item \textbf{Conclusion}\\
-After much contemplation, we have decided that this is the best design. The need to readjust cannot be avoided because of the uncertainty in turning caused by the legos flexing and backlash in the gears. In order to further reduce the error, we have decided to make the algorithm for the robot as efficient as possible. An examples of this is to avoid turning to check for walls as much as possible because turning is our least accurate movement.
+After much contemplation, we have decided that this is the best design. The need to readjust cannot be avoided because of the uncertainty in turning caused by the legos flexing and backlash in the gears. In order to further reduce the error, we have decided to make the algorithm for the robot as efficient as possible. An example of this is to avoid turning to check for walls as much as possible because turning is our least accurate movement.
 \end{itemize}
 \newpage
 
@@ -211,7 +211,7 @@ After much contemplation, we have decided that this is the best design. The need
 \section{Software Design of MazeBot}
 The main goal with the software of the mazebot was to create program that solved the problem simply and was easy to build upon. Furthermore, we wanted our software to have very few constants that we would need to tested for. For example, in order to move forward one cell, we would need to give the following function the degrees to move each of our drive motors:
 \begin{verbatim}
-setMotorTarget(leftMotor, degrees, 75);
+		setMotorSyncEncoder(leftDrive, rightDrive, 0, Degrees, BACKWARD);
 \end{verbatim}
 The degrees needed to move one cell forward could be achieved by constantly testing different values of degrees to achieve the movement to the new cell. However, we chose to calculate the exact degrees that the robot's drive motors would need to move in order to move exactly one cell forward. This approach in contrast to the former has two advantages: 
 \begin{enumerate}
@@ -225,7 +225,7 @@ Therefore:
 \begin{verbatim}
 degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_ROTATION
 \end{verbatim}
-A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%															%%
@@ -244,12 +244,12 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		int const START_ROW = ;
 		int const START_COL = ;
 	\end{verbatim} 
-\item Two constants that represents the target position in the maze were declared. These will be entered when we begin our demo.
+\item Two constants that represent the target position in the maze were declared. These will be entered when we begin our demo.
 	\begin{verbatim}
 		int const END_ROW = ; 
 		int const END_COL = ;
 	\end{verbatim}
-\item Two variables that represents the current position of the robot in the maze were declared. These are  initialized as the starting position. 
+\item Two global variables that represent the current position of the robot in the maze were declared. These are  initialized as the starting position. 
 	\begin{verbatim}
 		int currentRow = START_ROW;
 		int currentCol = START_COL;
@@ -284,7 +284,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		#define SOUTH 2
 		#define WEST 3
 	\end{verbatim}
-\item Structure name cell was declared and it has five parameters. This track where the walls are, what direction we entered from and whether we have visited the cell.
+\item A structure named cell was declared and it has five parameters. This track where the walls are, what direction we entered from and whether we have visited the cell.
 	\begin{verbatim}
 		typedef struct{
    int NWall; 
@@ -326,13 +326,13 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 \subsection{Constants Used for Moving Mechanism}
 \begin{itemize}
-\item When we calculate the degrees to move the encoder, we had two contributing errors that caused the motors to move less than they needed to. First of all, we were using integer division to find the degrees to move the motors. Therefore, the remainder is truncated and this causes the robot to move less than one cell or less than 90$^{\circ}$. However, there is now way around this as the encoder can only move the motor forward and back by integer values. Similarily, the PID control caused the robot to move less than the desired target. Therefore, three constants were declared which are added to the encoder input values and only needed to be tested once in order to suplement the errors. 
+\item When we calculated the degrees to move the encoder, we had two contributing errors that caused the motors to move less than they needed to. First of all, we were using integer division to find the degrees to move the motors. Therefore, the remainder is truncated and this causes the robot to move less than one cell or less than 90$^{\circ}$. Similarly, the PID control caused the robot to move less than the desired target. Therefore, three constants were declared which are added to the encoder input values and only needed to be tested once in order to supplement the errors. 
 	\begin{verbatim}
 		float const UNCERTAINTY_STRAIGHT = 23;
 		float const UNCERTAINTY_ROT = 28;
 		float const UNCERTAINTY_READJUST = 35;
 	\end{verbatim} 
-\item Each speed of the motors were defined with constants for simplification of the code. 
+\item Back and forward speed of the motors were defined with constants for simplification of the code. 
 	\begin{verbatim}
 		int const FORWARD = -100;
 		int const BACKWARD = -FORWARD;
@@ -349,7 +349,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 	\begin{verbatim}
 		int const MILISECS_TO_DRIVE_INTO_WALL = 1100;
 	\end{verbatim} 
-\item A constant that represents how often the robot has to readjust its direction was defined. A gloabal variable that increases every time the robot goes into new cells to count for readjust was also defined.
+\item A constant that represents how often the robot has to readjust its direction was defined. A global variable that increases every time the robot goes into new cells to count for readjust was also defined.
 	\begin{verbatim}
 		int const CELLS_TO_READJUST_AFTER = 3;
 		int timesForwardWithoutReadjust = 0;
@@ -390,7 +390,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 \subsection{Displaying Function}
 \begin{itemize}
-\item Function for displaying information of the robot and maze on the screen. Takes in direction and uses the maze global array. 
+\item Function for displaying information about the robot's orientation and location on the screen as well as what it knows about the maze. 
 	\begin{verbatim}
 		void drawInfo(int direction);
 	\end{verbatim}
@@ -410,6 +410,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		CELL_HEIGHT
 		CELL_WIDTH_MIDDLE
 		CELL_HEIGHT_MIDDLE
+		Maze[][]
 	\end{verbatim}
 	\end{itemize}
 \end{itemize}
@@ -419,7 +420,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 \subsection{Moving Forward Function}
 \begin{itemize}
-\item This function moves the the robot forward exactly one cell. Then, it stores the fact that there is no wall in the direction it moves. Finally, it increments how many cells it has moved without readjust. 
+\item This function moves the the robot forward exactly one cell. It also stores the cell information in the maze array. Finally, it increments how many cells it has moved without readjust. 
 	\begin{verbatim}
 		void goFwdCell(int direction);
 	\end{verbatim}
@@ -449,7 +450,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 \subsection{Turning Functions}
 \begin{itemize}
-\item Function for Turning right
+\item Function for turning right.
 \begin{verbatim}
 	int Turn90CW(int direction);
 \end{verbatim}
@@ -460,20 +461,20 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item The local variable direction is passed into the function and it returns the same variable direction
+	\item The local variable direction is passed into the function. The function returns the new direction.
 	\item Global variables and constants used are
 	\begin{verbatim}
 		QUARTER_ROTATION;
 		DRIVE_GEAR_RATIO;
 		FORWARD;
 	\end{verbatim}
-	\item This function calls in other functions
+	\item This function calls the other functions
 	\begin{verbatim}
 		int findRight(int direction);
 		int drawInfo(int direction);
 	\end{verbatim}
 	\end{itemize}
-\item Function for Turning left 
+\item Function for turning left 
 \begin{verbatim}
 	Turn90CW(int direction);
 \end{verbatim}
@@ -484,14 +485,14 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item The local variable direction is passes into the function and it returns the same variable direction
+	\item The local variable direction is passed into the function. The function returns the new direction.
 	\item Global variables and constants used are
 	\begin{verbatim}
 		QUARTER_ROTATION;
 		DRIVE_GEAR_RATIO;
 		FORWARD;
 	\end{verbatim}
-	\item This function calls in other functions
+	\item This function calls the other functions
 	\begin{verbatim}
 		int findLeft(int direction);
 		int drawInfo(int direction);
@@ -528,7 +529,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 \subsection{Function for Storing Data of the Walls}
 \begin{itemize}
-\item Function that stores data of the walls to the variables
+\item Function that writes whether there is a wall in the direction the robot is currently facing into the maze array.
 	\begin{verbatim}
 		void writeWall(int direction);
 	\end{verbatim}
@@ -551,8 +552,9 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		PRESENT
 		LAST_MAZE_HEIGHT_INDEX
 		LAST_MAZE_WIDTH_INDEX
+		maze[][]
 	\end{verbatim}
-	\item This function calls in other functions 
+	\item This function calls the other functions 
 	\begin{verbatim}
 		int thereIsWall();
 	\end{verbatim}
@@ -564,7 +566,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 \subsection{Functions for setting up the direction that need to be used}
 \begin{itemize}
-\item Function that takes in the current direction of the robot and returns exact opposite direction of what the robot is facing
+\item Function that takes in a direction of the robot and returns the direction towards the back.
 	\begin{verbatim}
 		int findBackDir(int currentDirection);
 	\end{verbatim}
@@ -610,7 +612,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 \subsection{Functions for Finding Existence of Wall from the data}
 \begin{itemize}
-\item Function takes in a direction and returns whether or not there is a wall in that direction from known data.
+\item Function takes in a direction and returns whether or not there is a wall in that direction from maze array.
 	\begin{verbatim}
 		int isThereWallInDir(int wallDir);
 	\end{verbatim}
@@ -630,6 +632,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		PRESENT
 		UNKNOWN
 		NOT_PRESENT
+		maze[][]
 	\end{verbatim}
 	\end{itemize}
 \end{itemize}
@@ -656,7 +659,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.52]{images/Software_Flowchart/reAdjustCCW.png}
-\caption{Flow Chart for Readjusting using Front wall and Left wall}
+\caption{Flow Chart for Readjusting using Back wall and Left wall}
 \label{}
 \end{figure}
 	\begin{itemize}
@@ -671,6 +674,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		ONE_ROTATION
 		UNCERTAINTY_READJUST
 		MILLISECS_TO_DRIVE_INTO_WALL
+		timesForwardWithoutReadjust
 	\end{verbatim}
 	\item This function calls in other functions
 	\begin{verbatim}
@@ -678,8 +682,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		int Turn90CCW(int direction);
 	\end{verbatim}
 	\end{itemize}
-\newpage
-\item Function that decides which direction to readjust in using the data collected in array. Once the function decides the direstion to readjust in, it cals that function.
+\item Function that decides which direction to readjust in using the data collected in array. Once the function decides the direction to readjust in, it calls that function.
 	\begin{verbatim}
 		void reAdjustWayBack(int direction);
 	\end{verbatim}
@@ -715,7 +718,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 \subsection{Function for Movement All Together}
 \begin{itemize}
-\item Function that implements the right following algorithm using the functions described above. Furthermore, ensures that the robot readjusts whenever it can.
+\item Function that implements the right following algorithm using the functions described above. Furthermore, it ensures that the robot readjusts whenever it can.
 	\begin{verbatim}
 		int MovementWithSensor(int direction);
 	\end{verbatim}
@@ -761,6 +764,12 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 \caption{Flow Chart for Deleting Duplicate Function}
 \label{}
 \end{figure}
+Global variables used:
+ 	\begin{verbatim}
+		entered[]
+		lastEnteredIdx
+	\end{verbatim}
+
 \item Function that reverses the direction from the array which saved up how the robot entered each cell. For example, if the robot went into the cell with direction East, then we change it to West. Therefore, we change all the directions to its opposite.
  	\begin{verbatim}
 		void reverseDirection();
@@ -771,7 +780,13 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 \caption{Flow Chart for Reversing Order of Values in the Array}
 \label{}
 \end{figure}
-\newpage
+
+Global variables used:
+ 	\begin{verbatim}
+		entered[]
+		lastEnteredIdx
+	\end{verbatim}
+	
 \item Function that takes in the variable direction and goes back to the initial position in the cell with the new array created by two functions above
  	\begin{verbatim}
 		void goingBackFastestRoute(int direction);
@@ -790,6 +805,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		WEST
 		SOUTH
 		NORTH
+		entered[]
 	\end{verbatim}
 	\item This function calls in other functions
 	\begin{verbatim}
@@ -824,6 +840,8 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 		lastEnteredIdx
 		FREQUENCY
 		MILI_TO_BEEP_FOR
+		Maze[]
+		entered[]
 	\end{verbatim}
 	\item This function calls in other functions
 	\begin{verbatim}
@@ -853,9 +871,7 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 
 \section{Appendix}
-\begin{itemize}
-\item Full Code
-\end{itemize}
+\subsection{Full Source Code}
 
 \begin{linenumbers}
 \begin{verbatim}
@@ -972,29 +988,36 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
                     drawLine(c*CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT);
                 }
                 if(Maze[r][c].NWall == PRESENT){
-                    drawLine(c*CELL_WIDTH,r*CELL_HEIGHT + CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT + CELL_HEIGHT);
+                    drawLine(c*CELL_WIDTH,r*CELL_HEIGHT + CELL_HEIGHT,
+                             c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT + CELL_HEIGHT);
                 }
                 if(Maze[r][c].WWall == PRESENT){
-                    drawLine(c*CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH, r*CELL_HEIGHT + CELL_HEIGHT);
+                    drawLine(c*CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH,
+                             r*CELL_HEIGHT + CELL_HEIGHT);
                 }
                 if(Maze[r][c].EWall == PRESENT){
-                    drawLine(c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT,c*CELL_WIDTH + CELL_WIDTH, r*CELL_HEIGHT + CELL_HEIGHT);
+                    drawLine(c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT,
+                             c*CELL_WIDTH + CELL_WIDTH, r*CELL_HEIGHT + CELL_HEIGHT);
                 }
 
             }
         }
 
         if(direction == NORTH){
-            displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, "^");
+            displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, 
+                               currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, "^");
         }
         else if(direction == EAST){
-            displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, ">");
+            displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE,
+                               currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, ">");
         }
         else if(direction == WEST){
-            displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, "<");
+            displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE,
+                               currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, "<");
         }
         else if(direction == SOUTH){
-            displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE, currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, "v");
+            displayBigStringAt(currentCol*CELL_WIDTH + CELL_WIDTH_MIDDLE,
+                               currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, "v");
         }
     }
 
@@ -1115,7 +1138,9 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 
     void goFwdCell(int direction){
-        setMotorSyncEncoder(leftDrive, rightDrive, 0, (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION, FORWARD);
+        setMotorSyncEncoder(leftDrive, rightDrive, 0, 
+                            (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO 
+                            * ONE_ROTATION, FORWARD);
 
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -1150,7 +1175,8 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 
     int Turn90CCW(int direction){
-        setMotorSyncEncoder(leftDrive, rightDrive, -100, QUARTER_ROTATION * DRIVE_GEAR_RATIO, FORWARD);
+        setMotorSyncEncoder(leftDrive, rightDrive, -100, QUARTER_ROTATION * DRIVE_GEAR_RATIO, 
+                            FORWARD);
 
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -1164,7 +1190,8 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
 
 
     int Turn90CW(int direction){
-        setMotorSyncEncoder(leftDrive, rightDrive, 100, QUARTER_ROTATION * DRIVE_GEAR_RATIO, FORWARD);
+        setMotorSyncEncoder(leftDrive, rightDrive, 100, QUARTER_ROTATION * DRIVE_GEAR_RATIO,
+                            FORWARD);
 
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -1246,7 +1273,8 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
         reAdjustWayBack(direction);
         
         // turn to check if wall is right
-        if(isThereWallInDir(findRight(direction)) == UNKNOWN || isThereWallInDir(findRight(direction)) == NOT_PRESENT){
+        if(isThereWallInDir(findRight(direction)) == UNKNOWN 
+           || isThereWallInDir(findRight(direction)) == NOT_PRESENT){
             direction = Turn90CW(direction);
             writeWall(direction);
             
@@ -1269,7 +1297,9 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
         // At this point, we know there r walls on the R and N
         // We are facing N 
         // if we know there is wall left, go thru back
-        if(isThereWallInDir(findLeft(direction)) == UNKNOWN || isThereWallInDir(findLeft(direction)) == NOT_PRESENT){
+        if(isThereWallInDir(findLeft(direction)) == UNKNOWN 
+           || isThereWallInDir(findLeft(direction)) == NOT_PRESENT){
+           
             direction = Turn90CCW(direction);
             writeWall(direction);
                             
@@ -1304,7 +1334,9 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
         motor[leftDrive] = FORWARD;
         sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-        setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
+        setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)
+                            *DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST,
+                             BACKWARD);
 
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -1316,7 +1348,9 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
         motor[leftDrive] = FORWARD;
         sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-        setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
+        setMotorSyncEncoder(leftDrive, rightDrive, 0, 
+                            ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO 
+                            * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
 
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -1333,7 +1367,9 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
         motor[leftDrive] = FORWARD;
         sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-        setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
+        setMotorSyncEncoder(leftDrive, rightDrive, 0,
+                            ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO 
+                            * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
 
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -1345,7 +1381,9 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
         motor[leftDrive] = FORWARD;
         sleep(MILLISECS_TO_DRIVE_INTO_WALL);
 
-        setMotorSyncEncoder(leftDrive, rightDrive, 0, ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
+        setMotorSyncEncoder(leftDrive, rightDrive, 0,
+                            ((SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL)*DRIVE_GEAR_RATIO 
+                            * ONE_ROTATION)/7 + UNCERTAINTY_READJUST, BACKWARD);
 
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
@@ -1362,7 +1400,8 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
             if(isThereWallInDir(findLeft(direction)) == PRESENT && enteringWall){
                 reAdjustCCW(direction);
             }
-            else if(isThereWallInDir(findLeft(direction)) == PRESENT && isThereWallInDir(findBackDir(direction)) == PRESENT){
+            else if(isThereWallInDir(findLeft(direction)) == PRESENT && 
+                    isThereWallInDir(findBackDir(direction)) == PRESENT){
                 direction = Turn90CCW(direction);
                 reAdjustCCW(direction);
                 direction = Turn90CW(direction);
@@ -1370,7 +1409,8 @@ A similar derivation exists for turning the robot 90 degrees: %ADD SKETCH HERE%
             else if(enteringWall && isThereWallInDir(findRight(direction)) == PRESENT){
                 reAdjustCW(direction);
             }
-            else if(isThereWallInDir(findRight(direction)) == PRESENT && isThereWallInDir(findBackDir(direction)) == PRESENT){
+            else if(isThereWallInDir(findRight(direction)) == PRESENT && 
+           	        isThereWallInDir(findBackDir(direction)) == PRESENT){
                 direction = Turn90CW(direction);
                 reAdjustCW(direction);
                 direction = Turn90CCW(direction);
