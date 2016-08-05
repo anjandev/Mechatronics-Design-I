@@ -404,13 +404,13 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 	\item The local variable direction is passed into the function but it does not return any variable
 	\item Global variables and constants used are
 	\begin{verbatim}
-		MAZE_WIDTH
-		MAZE_HEIGHT
-		CELL_WIDTH
-		CELL_HEIGHT
-		CELL_WIDTH_MIDDLE
-		CELL_HEIGHT_MIDDLE
-		Maze[][]
+		MAZE_WIDTH     MAZE_HEIGHT
+		CELL_WIDTH     CELL_HEIGHT
+		CELL_WIDTH_MIDDLE     CELL_HEIGHT_MIDDLE
+		Maze[][].NWall     Maze[][].SWall     Maze[][].EWall     Maze[][].WWall
+	PRESENT
+	currentCol     currentRow
+	NORTH     SOUTH     EAST     WEST
 	\end{verbatim}
 	\end{itemize}
 \end{itemize}
@@ -434,13 +434,12 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 	\item The local variable direction is passed into the function but it does not return any variable
 	\item Global variables and constants used are
 	\begin{verbatim}
-		SIZE_OF_ONE_CELL
-		CIRCUMFERENCE_OF_WHEEL
-		DRIVE_GEAR_RATIO
-		ONE_ROTATION
-		FORWARD
+		SIZE_OF_ONE_CELL     CIRCUMFERENCE_OF_WHEEL
+		DRIVE_GEAR_RATIO     ONE_ROTATION     FORWARD
+		NORTH     SOUTH     EAST     WEST
+		currentCol     currentRow
+		Maze[][].NWall     Maze[][].SWall     Maze[][].EWall     Maze[][].WWall
 		timesForwardWithoutReadjust
-		Maze[][]
 	\end{verbatim}
 	\end{itemize}
 \end{itemize}
@@ -462,13 +461,12 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \end{figure}
 	\begin{itemize}
 	\item The local variable direction is passed into the function. The function returns the new direction.
-	\item Global variables and constants used are
+	\item Global constants used are
 	\begin{verbatim}
-		QUARTER_ROTATION;
-		DRIVE_GEAR_RATIO;
-		FORWARD;
+		QUARTER_ROTATION     DRIVE_GEAR_RATION
+		FORWARD
 	\end{verbatim}
-	\item This function calls the other functions
+	\item Functions used are
 	\begin{verbatim}
 		int findRight(int direction);
 		int drawInfo(int direction);
@@ -486,13 +484,12 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \end{figure}
 	\begin{itemize}
 	\item The local variable direction is passed into the function. The function returns the new direction.
-	\item Global variables and constants used are
+	\item Global constants used are
 	\begin{verbatim}
-		QUARTER_ROTATION;
-		DRIVE_GEAR_RATIO;
-		FORWARD;
+		QUARTER_ROTATION     DRIVE_GEAR_RATION
+		FORWARD
 	\end{verbatim}
-	\item This function calls the other functions
+	\item Functions used are
 	\begin{verbatim}
 		int findLeft(int direction);
 		int drawInfo(int direction);
@@ -517,7 +514,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \end{figure}
 	\begin{itemize}
 	\item Very simple fuction that returns $1$ if the sensor detects the wall
-	\item Global variables and constants used are
+	\item Global constant used is
 	\begin{verbatim}
 		DIST_BETWEEN_BOT_AND_WALL
 	\end{verbatim}
@@ -543,18 +540,13 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 	\item The local variable direction is passed into the function but it does not return any variable.
 	\item Global variables and constants used are:
 	\begin{verbatim}
-		NORTH
-		SOUTH
-		EAST
-		WEST
-		currentRow
-		currentCol
+		NORTH     SOUTH     EAST     WEST
+		currentCol     currentRow
+		Maze[][].NWall     Maze[][].SWall     Maze[][].EWall     Maze[][].WWall
 		PRESENT
-		LAST_MAZE_HEIGHT_INDEX
-		LAST_MAZE_WIDTH_INDEX
-		maze[][]
+		LAST_MAZE_HEIGHT_INDEX     LAST_MAZE_WIDTH_INDEX
 	\end{verbatim}
-	\item This function calls the other functions 
+	\item Function used is
 	\begin{verbatim}
 		int thereIsWall();
 	\end{verbatim}
@@ -599,10 +591,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 	\begin{itemize}
 	\item Global constants used are
 	\begin{verbatim}
-		NORTH
-		SOUTH
-		EAST
-		WEST
+		NORTH     SOUTH     EAST     WEST
 	\end{verbatim}
 	\end{itemize}
 \end{itemize}
@@ -625,14 +614,9 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 	\begin{itemize}
 	\item Global variables and constants used are
 	\begin{verbatim}
-		NORTH
-		SOUTH
-		EAST
-		WEST
-		PRESENT
-		UNKNOWN
-		NOT_PRESENT
-		maze[][]
+		NORTH     SOUTH     EAST     WEST
+		PRESENT     UNKNOWN     NOT_PRESENT
+		Maze[][].NWall     Maze[][].SWall     Maze[][].EWall     Maze[][].WWall
 	\end{verbatim}
 	\end{itemize}
 \end{itemize}
@@ -666,17 +650,14 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 	\item The local variable direction is passed into the function but it does not return any variable
 	\item Global variables and constants used are
 	\begin{verbatim}
-		FORWARD
-		BACKWARD
-		SIZE_OF_ONE_CELL
-		CIRCUMFERENCE_OF_WHEEL
-		DRIVE_GEAR_RATIO
-		ONE_ROTATION
-		UNCERTAINTY_READJUST
-		MILLISECS_TO_DRIVE_INTO_WALL
+		SIZE_OF_ONE_CELL     CIRCUMFERENCE_OF_WHEEL
+		DRIVE_GEAR_RATIO     ONE_ROTATION     UNCERTAINTY_READJUST
+		FORWARD     BACKWARD     MILLISECS_TO_DRIVE_INTO_WALL
+		NORTH     SOUTH     EAST     WEST
+		Maze[][].NWall     Maze[][].SWall     Maze[][].EWall     Maze[][].WWall
 		timesForwardWithoutReadjust
 	\end{verbatim}
-	\item This function calls in other functions
+	\item Functions used are
 	\begin{verbatim}
 		int Turn90CW(int direction);
 		int Turn90CCW(int direction);
@@ -694,13 +675,13 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \end{figure}
 	\begin{itemize}
 	\item The local variable direction is passed into the function but it does not return any variable
-	\item Global variables and constants used are
+	\item Global variable and constants used are
 	\begin{verbatim}
 		timesForwardWithoutReadjust
 		CELLS_TO_READJUST_AFTER
 		PRESENT
 	\end{verbatim}
-	\item This function calls in other functions
+	\item Functions used are
 	\begin{verbatim}
 		thereIsWall();
 		reAdjustCW(int direction);
@@ -730,12 +711,11 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \end{figure}
 	\begin{itemize}
 	\item The local variable direction is passed into the function and it returns a new variable direction.
-	\item Global variables and constants used are
+	\item Global constants used are
 	\begin{verbatim}
-		UNKNOWN
-		NOT_PRESENT
+		NOT_PRESENT     UNKNOWN
 	\end{verbatim}
-	\item This function calls the other functions
+	\item Functions used are
 	\begin{verbatim}
 		writewall(int direction);
 		reAdjustWayBack(int direction);
@@ -764,12 +744,12 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \caption{Flow Chart for Deleting Duplicate Function}
 \label{}
 \end{figure}
-Global variables used:
- 	\begin{verbatim}
-		entered[]
-		lastEnteredIdx
-	\end{verbatim}
-
+	\begin{itemize}
+	\item Global variables used:
+ 		\begin{verbatim}
+			entered[]     lastEnteredIdx
+		\end{verbatim}
+	\end{itemize}
 \item Function that reverses the direction from the array which saved up how the robot entered each cell. For example, if the robot went into the cell with direction East, then we change it to West. Therefore, we change all the directions to its opposite.
  	\begin{verbatim}
 		void reverseDirection();
@@ -780,13 +760,13 @@ Global variables used:
 \caption{Flow Chart for Reversing Order of Values in the Array}
 \label{}
 \end{figure}
-
-Global variables used:
- 	\begin{verbatim}
-		entered[]
-		lastEnteredIdx
-	\end{verbatim}
-	
+	\begin{itemize}
+	\item Global variables and constants used:
+ 		\begin{verbatim}
+			entered[]     lastEnteredIdx
+			NORTH     SOUTH     EAST     WEST
+		\end{verbatim}
+	\end{itemize}
 \item Function that takes in the variable direction and goes back to the initial position in the cell with the new array created by two functions above
  	\begin{verbatim}
 		void goingBackFastestRoute(int direction);
@@ -800,18 +780,15 @@ Global variables used:
 	\begin{itemize}
 	\item Global variables and constants used are
 	\begin{verbatim}
-		lastEnteredIdx
-		EAST
-		WEST
-		SOUTH
-		NORTH
-		entered[]
+		entered[]     lastEnteredIdx
+		NORTH     SOUTH     EAST     WEST
 	\end{verbatim}
-	\item This function calls in other functions
+	\item Functions used are
 	\begin{verbatim}
 		reAdjustWayBack(int direction);	
 		Turn90CW(int direction);
 		Turn90CCW(int direction);
+		goFwdCell(int direction);
 	\end{verbatim}
 	\end{itemize}
 \end{itemize}
@@ -833,17 +810,16 @@ Global variables used:
 	\end{verbatim}
 	\item Global variables and constants used are
 	\begin{verbatim}
-		MAZE_WIDTH
-		MAZE_HEIGHT
-		UNKNOWN
-		PRESENT
-		lastEnteredIdx
-		FREQUENCY
-		MILI_TO_BEEP_FOR
-		Maze[]
-		entered[]
+		MAZE_WIDTH     MAZE_HEIGHT
+		entered[]     lastEnteredIdx
+		FREQUENCY     MILI_TO_BEEP_FOR
+		Maze[][].NWall     Maze[][].SWall     Maze[][].EWall     Maze[][].WWall
+		Maze[][].entryDir     Maze[][].Visited
+		PRESENT     UNKNOWN
+		LAST_MAZE_HEIGHT_INDEX     LAST_MAZE_WIDTH_INDEX 
+		currentCol     currentRow    				
 	\end{verbatim}
-	\item This function calls in other functions
+	\item Functions used are
 	\begin{verbatim}
 		MovmentWithSensor(int direction);
 		deleteDuplicates();
@@ -999,7 +975,6 @@ Global variables used:
                     drawLine(c*CELL_WIDTH + CELL_WIDTH,r*CELL_HEIGHT,
                              c*CELL_WIDTH + CELL_WIDTH, r*CELL_HEIGHT + CELL_HEIGHT);
                 }
-
             }
         }
 
@@ -1020,6 +995,9 @@ Global variables used:
                                currentRow*CELL_HEIGHT + CELL_HEIGHT_MIDDLE, "v");
         }
     }
+
+
+
 
 
     task main(){
@@ -1058,18 +1036,19 @@ Global variables used:
 
         playTone(FREQUENCY, MILI_TO_BEEP_FOR);
 
-
         deleteDuplicates();
 
         sleep(MILI_TO_BEEP_FOR * 10);
 
         reverseDirection();
+        
         direction = goingBackFastestRoute(direction);
 
         drawInfo(direction);
 
         sleep(390000);
     }
+
 
 
     void deleteDuplicates(){
@@ -1082,7 +1061,6 @@ Global variables used:
                 for(int moveOGTo = idx; moveOGTo <= lastEnteredIdx - 2; moveOGTo++){
                     entered[moveOGTo] = entered[moveOGTo + 2];
                 }
-
                 lastEnteredIdx = lastEnteredIdx - 2;
                 idx = -1;
             }
@@ -1130,7 +1108,6 @@ Global variables used:
             else if(turnNum == -1){
                 direction = Turn90CCW(direction);
             }
-
             goFwdCell(direction);
         }
         return direction;
@@ -1145,7 +1122,6 @@ Global variables used:
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
         }
-
         if (direction == NORTH){
             Maze[currentRow][currentCol].NWall = false;
             currentRow++;
@@ -1174,6 +1150,9 @@ Global variables used:
     }
 
 
+
+
+
     int Turn90CCW(int direction){
         setMotorSyncEncoder(leftDrive, rightDrive, -100, QUARTER_ROTATION * DRIVE_GEAR_RATIO, 
                             FORWARD);
@@ -1181,9 +1160,7 @@ Global variables used:
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
         }
-
         direction = findLeft(direction);
-
         drawInfo(direction);
         return direction;
     }
@@ -1196,9 +1173,7 @@ Global variables used:
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
         }
-
         direction = findRight(direction);
-
         drawInfo(direction);
         return direction;
     }
@@ -1288,7 +1263,6 @@ Global variables used:
                 reAdjustWayBack(direction);
             }
         }		
-        
         if(!enteringDirectionWall){
                 goFwdCell(direction);
                 return direction;
@@ -1321,15 +1295,20 @@ Global variables used:
             goFwdCell(direction);
             return direction;
         }
-        
         sleep(1000000);
     }
+
+
+
+
+
+
+
 
 
     void reAdjustCCW(int direction){
 
         direction = Turn90CCW(direction);
-
         motor[rightDrive] = FORWARD;
         motor[leftDrive] = FORWARD;
         sleep(MILLISECS_TO_DRIVE_INTO_WALL);
@@ -1341,9 +1320,7 @@ Global variables used:
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
         }
-
         Turn90CW(direction);
-
         motor[rightDrive] = FORWARD;
         motor[leftDrive] = FORWARD;
         sleep(MILLISECS_TO_DRIVE_INTO_WALL);
@@ -1355,14 +1332,13 @@ Global variables used:
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
         }
-
         timesForwardWithoutReadjust = 0;
     }
+
 
     void reAdjustCW(int direction){
 
         direction = Turn90CW(direction);
-
         motor[rightDrive] = FORWARD;
         motor[leftDrive] = FORWARD;
         sleep(MILLISECS_TO_DRIVE_INTO_WALL);
@@ -1374,9 +1350,7 @@ Global variables used:
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
         }
-
         Turn90CCW(direction);
-
         motor[rightDrive] = FORWARD;
         motor[leftDrive] = FORWARD;
         sleep(MILLISECS_TO_DRIVE_INTO_WALL);
@@ -1388,7 +1362,6 @@ Global variables used:
         repeatUntil(!getMotorRunning(leftDrive) && !getMotorRunning(rightDrive)){
 
         }
-
         timesForwardWithoutReadjust = 0;
     }
 
@@ -1429,9 +1402,10 @@ Global variables used:
         else if(currentDirection == WEST){
             return EAST;
         }
-
         return NORTH;
     }
+
+
 
 
     int findRight(int currentDirection){
@@ -1482,7 +1456,6 @@ Global variables used:
         else	if(wallDir == WEST && Maze[currentRow][currentCol].WWall == UNKNOWN){
             return UNKNOWN;
         }
-
         return NOT_PRESENT;
     }
 \end{verbatim}
