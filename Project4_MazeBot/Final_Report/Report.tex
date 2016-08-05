@@ -4,27 +4,29 @@
 %Gummi|065|=)
 \date{}
 \usepackage{caption}
-%%%%% Please Check this section %%%%%
-\title{Table of Contents}
-
+\usepackage{subcaption,graphicx}
 \usepackage{lineno, blindtext}
 \usepackage{color}
 \usepackage{graphicx}
-\begin{document}
 
+\title{Table of Contents}
+
+\begin{document}
 \maketitle
 
 \tableofcontents
 
 \newpage
 
+\listoffigures
+
+\newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%															%%
 %% 							Section 1    					%%
 %% 															%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \section{Progress Report}
 \subsection{1\ts{st} Iteration}
@@ -40,26 +42,26 @@ This is the algorithm needed to find the unique solution to the maze. Once movem
 Should be achieved by: July 12, 2016
 \begin{itemize}
 \item Robot tracks its orientation and location in maze\\
-This is dependency for most of the other requirements. By tracking movement in the cell, we are able to know when we have reached our goal, how we reached it (in order to implement coming back shortest path) and where to store cell information in our 2-D array.
-\item Robot beeps when reached target
-\item Robot stores wall information, visited / unvisited status and orientation at entry in 2-D array.\\
+This is a dependency for most of the other requirements. By tracking movement in the maze, we are able to know when we have reached our goal, how we reached it (in order to implement coming back shortest path) and where to store cell information in our 2-D array.
+\item Robot beeps when it has reached the target cell
+\item Robot stores wall information, visited/unvisited status and orientation at entry in a 2-D array.\\
 This is required for more advanced algorithm features we wish to implement such as having the robot not check the same wall twice. Furthermore, this was required in order to display current location and wall information graphically. We chose to implement it now because it was a major criteria requirement. 
 \end{itemize}
 
 \subsection{3\ts{rd} Iteration}
 Should be achieved by: July 19, 2016
 \begin{itemize}
-\item Robot returns with shortest path\\
-Since we know the route we took to get to our final location, we can now implement the canceling algorithm (described in detail in \textbf{Section 3.16}).
+\item Robot returns with the shortest path\\
+Since we know the route we took to get to our final location, we can now implement the canceling algorithm (described in detail in \textbf{Subsection 3.16}).
 \item Robot displays current location graphically on screen\\
-We implemented this now so that we could more easily test our algorithm. The last project feature we wanted to implement was to not check the same wall twice. We thought that this would be difficult to implement and as such improved our debugging capabilities before continuing.
+We are implementing this now, so that we could test our algorithm more easily. The last project feature we wanted to implement was to not check the same wall twice. This would be difficult to implement without sufficient debugging capabilities. As such, we improved our debugging capabilities before continuing.
 \end{itemize}
 
 \subsection{4\ts{th} Iteration}
 Should be achieved by: July 26, 2016
 \begin{itemize}
-\item Improve algorithm such that robot doesn't check same wall twice\\
-The premise behind this optimization is that imagine that we are in a cell with a wall to the South. If we've checked that there is a wall toward the South, we know that in the cell below our current cell, there is a wall to the North. The most general case will be programmed and described in \textbf{Section 3}. This has two major advantages: we do not have to waste time turning and we do not incur extra error because of unneeded turning.
+\item Improve algorithm such that robot does not check same wall twice\\
+Suppose the robot is in a cell with a wall to the South. If we've checked that there is a wall toward the South, the robot should store the fact that in the cell below our current cell, there is a wall to the North and act accordingly. In this case, the robot should not check North wall when it is in the cell below the current cell. The most general case will be programmed and described in \textbf{Section 3}. This has two major advantages: the robot does not waste time turning and the robot does not incur extra error because of unnecessary turning.
 \end{itemize}
 \newpage
 
@@ -73,15 +75,14 @@ The premise behind this optimization is that imagine that we are in a cell with 
 
 \section{Mechanical Design of MazeBot}
 \subsection{Top Level Mechanical Structure and Specifications}
-Our robot needed very accurate movement in order to be successful in the maze. This criteria depends heavily on whether or not the motor encoders report accurate values to the algorithm. In order to achieve this, we had to ensure:
-
+Our robot needed to have very accurate movement in order to be successful in the maze. This specification depends heavily on whether or not the motor encoders report accurate values to the algorithm. In order to have the motor encoders reporting accurrately, we had to ensure:
 \begin{itemize}
 \item The wheels do not slip
 \item The robot does not hit walls
 \item The drive system is sturdy 
 \item The gears are securely held in place and make proper contact. 
 \end{itemize}
-However, there is a limit to how much we can to do minimize mechanical error in movement. As a result, we will have to readjust after a certain number of cells. This is done by driving into the wall, turning 90$^{\circ}$ and driving into the wall again. However, having to readjust too often is problematic as this adds time to our average time in each cell which is a major criteria point. As a result, we hope to minimize the amount of times we needed to readjust by maximizing the accuracy of the mechanical system. 
+However, there is a limit to how much we can minimize mechanical error in movement. As a result, we will have to readjust after a certain number of cells (\textbf{Subsection 3.16}). However, having to readjust too often is problematic as this increases average time in each cell which is a major criteria point. As a result, we hope to minimize how often we need to readjust by maximizing the accuracy of the mechanical system. 
 \newpage
 
 \subsection{First Iteration}
@@ -101,17 +102,17 @@ However, there is a limit to how much we can to do minimize mechanical error in 
 \caption{First Iteration Drive System}\label{fig:Drive System}
 \endminipage\hfill
 \minipage{0.32\textwidth}
-\includegraphics[scale=0.70]{images/Hardware_Mechanical/First_Iteration_Design_FrontView.png}
+\includegraphics[scale=0.79]{images/Hardware_Mechanical/First_Iteration_Design_FrontView.png}
 \caption{First Iteration Front View}\label{fig:Front View}
 \endminipage\hfill
 \minipage{0.32\textwidth}
-\includegraphics[scale=0.70]{images/Hardware_Mechanical/First_Iteration_Design_SideView.png}
+\includegraphics[scale=0.79]{images/Hardware_Mechanical/First_Iteration_Design_SideView.png}
 \caption{First Iteration Side View}\label{Side View}
 \endminipage
 \end{figure}
 \begin{figure}[!tbp]
   \centering
-  \begin{minipage}[b]{0.33\textwidth}
+  \begin{minipage}[b]{0.34\textwidth}
 \includegraphics[scale=0.18]{images/Hardware_Mechanical/First_Iteration_Front.jpg}
 \caption{First Iteration Front View}\label{fig:Front View}
   \end{minipage}
@@ -125,23 +126,23 @@ However, there is a limit to how much we can to do minimize mechanical error in 
 \begin{itemize}
 \item \textbf{Observations \& Measurements}
 	\begin{itemize}
-	\item \textbf{Goal}: Able to go 3 cells without needing to readjust
-	\item \textbf{Failed}: Needed to readjust every second cell
-	\item \textbf{Goal}: Able to turn 90$^{\circ}$ accurately.\\
-	Test - An error of even $ \pm 1^{\circ}$ will cause accumulate to a significant error when traversing cells. However, error in turning is hard to notice. Therefore, we chose to have robot turn 90$^{\circ}$ 8 times in place in order to propagate any error significantly.
-	\item \textbf{Failed}: Robot had error of $ \pm 20^{\circ}$
+	\item \textbf{Goal}: Robot is able to go 3 cells without needing to readjust
+	\item \textbf{Failed}: Robot needed to readjust every second cell
+	\item \textbf{Goal}: Robot is able to turn 90$^{\circ}$ accurately.\\
+	Test - An error of even $ \pm 1^{\circ}$ will accumulate to a significant error when traversing cells. However, error in a single turn is hard to notice. Therefore, we chose to have the robot turn 90$^{\circ}$ 8 times in place in order to propagate any error significantly.
+	\item \textbf{Failed}: Robot had error of $ \pm 24^{\circ}$
 	\end{itemize}
 \item \textbf{Reasons for Test Failures}
 	\begin{itemize}
 	\item \textbf{Structural Integrity of the Drive System}\\
-	We are unable to find space to properly secure the left and right drive wheels. When testing, we found one wheel to slipped forward and the other to slipped back when turning which defeats the accuracy of the encoder. Because of this, we are unable to meet our goal of accurate movement.
-	\item \textbf{Robot is too large.}\\
-	Since the brick is upright, it is top heavy. We needed two rods in the back and one metal ball in the front in order to balance the robot. The additions of the two rods and one metal ball negates the spacial advantage of having the robot's brick be upright. Even though the dimensions of the robot are within the size of one square, it leaves very little room for error. As such, the robot begins to run into walls after the 2\ts{nd} turn.
-	\item \textbf{Wheels are too big}\\
-	In order for the motor encoder to be accurate, the wheels must not slip. In order to maximize friction, we decided to use the largest wheels in the set. However. the extra friction with the ground from the larger wheels is not worth the extra size added to the robot. When we replaced the large wheels with smaller wheels, we noticed little to no change in accuracy of movement.
+	We were unable to find space to properly secure the left and right drive wheels. When testing, we found one wheel slipped forward and the other wheel slipped back when turning. This problem defeated the accuracy of the encoder. Hence, we were unable to meet our goal of accurate movement.
+	\item \textbf{Robot is too Large.}\\
+	Since the brick is upright, the robot is top heavy. We needed two white bars in the back and one metal ball in the front to balance the robot. The additions of the two white bars and one metal ball negates the spacial advantage of having the robot's brick be upright. Even though the dimensions of the robot were within the size of one cell, it left very little room for movement error. As such, the robot began to run into walls after the second turn.
+	\item \textbf{Wheels are too Big}\\
+	In order for the motor encoder to be accurate, the wheels must not slip. Therefore, to maximize friction, we decided to use the largest wheels in the brickset. However. the extra friction with the ground from the larger wheels is not worth the extra size added to the robot. When we replaced the large wheels with smaller wheels, we noticed little to no change in accuracy of movement.
 	\end{itemize}
 \item \textbf{Conclusion}\\
-In conclusion, we have decided to no longer have our robot upright. This will allow us to have enough room to properly secure the drive system. Which will allow us to ensure that the gears make proper contact and do slide forward or backward. This ensures maximum encoder accuracy. By having the robot level with the table, we will be able to take out the additional support that we needed before to hold the bot upright. This will allow more room for error when turning and going into new cells.
+In conclusion, we have decided to not have the brick upright. This will allow us to have enough room to properly secure the drive system. As such, the gears will make proper contact and will not slide forward or backward. This ensures maximum encoder accuracy. By having the robot level with the table, we will be able to take out the additional support that we needed before to hold the bot upright. Similarily, we chose to use wheel with smaller radius but same thickness. Both of these changes will allow more room for movement error when turning and going into new cells.
 \end{itemize}
 \newpage
 
@@ -192,13 +193,13 @@ In conclusion, we have decided to no longer have our robot upright. This will al
 	\item \textbf{Goal}: Able to go 3 cells without needing to readjust
  	\item \textbf{Passed}: Needed to readjust every fifth cell
  	\item \textbf{Goal}: Able to turn 90$^{\circ}$ accurately.\\
-	Test - An error of even $ \pm 1^{\circ}$ will cause accumulate to a significant error when traversing cells. However, error in turning is hard to notice. Therefore, we chose to have robot turn 90$^{\circ}$ 8 times in place in order to propagate any error significantly. 
+	Test - An error of even $ \pm 1^{\circ}$ will accumulate to a significant error when traversing cells. However, error in a single turn is hard to notice. Therefore, we chose to have the robot turn 90$^{\circ}$ 8 times in place in order to propagate any error significantly.
 	\item \textbf{Passed}: Robot had an unnoticeable error even after eight turns
 	\end{itemize}
 \item \textbf{Reasons for Test Successes}\\
-Our hypotheses were correct. By securing the gears, we were able to make the motor encoders much more accurate and as a result, have the robot move in much more controlled way. Furthermore, having the robot much more compact allowed the system to have a larger tolerance for error.
+Our hypotheses were correct. By securing the gears, we were able to make the motor encoders much more accurate and as a result, the robot moved in a much more controlled way. Furthermore, having a more compact robot allowed the system to have a larger tolerance for movement error.
 \item \textbf{Conclusion}\\
-After much contemplation, we have decided that this is the best design. The need to readjust cannot be avoided because of the uncertainty in turning caused by the legos flexing and backlash in the gears. In order to further reduce the error, we have decided to make the algorithm for the robot as efficient as possible. An example of this is to avoid turning to check for walls as much as possible because turning is our least accurate movement.
+After full contemplation, we have decided that this is the best design. The need to readjust cannot be avoided because of the uncertainty in turning caused by the backlash in the gears. In order to further reduce the error, we have decided to make the algorithm for the robot as efficient as possible. An example of this is to avoid turning to check the same wall multiple times because turning is the robot's least accurate movement.
 \end{itemize}
 \newpage
 
@@ -209,19 +210,29 @@ After much contemplation, we have decided that this is the best design. The need
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Software Design of MazeBot}
-The main goal with the software of the mazebot was to create program that solved the problem simply and was easy to build upon. Furthermore, we wanted our software to have very few constants that we would need to tested for. For example, in order to move forward one cell, we would need to give the following function the degrees to move each of our drive motors:
+To create a program that was suitable for requirements and easy to debug, we chose to employ a lot of functions. Each function does one small task and they were tested separately. These functions were then stitched together for different phases of the robot's maze solving algorithm.\\
+These phases are:\\\\
+Finding solution to the maze $\to$ Solving for the shortest path $\to$ Coming back the shortest route.\\\\
+Furthermore, we wanted our program to have very few constants that we would need to test. For example, in order to move forward one cell, we needed to give the following function degrees to move each of our drive motors:
 \begin{verbatim}
 		setMotorSyncEncoder(leftDrive, rightDrive, 0, Degrees, BACKWARD);
 \end{verbatim}
-The degrees needed to move one cell forward could be achieved by constantly testing different values of degrees to achieve the movement to the new cell. However, we chose to calculate the exact degrees that the robot's drive motors would need to move in order to move exactly one cell forward. This approach in contrast to the former has two advantages: 
+The degrees needed to move one cell forward could have been calculated by constantly testing different values of degrees. However, we chose to calculate the exact degrees that is needed for the robot to move exactly one cell forward. This approach in contrast to the former has two advantages: 
 \begin{enumerate}
-\item It allows us to isolate any problems with moving accurately to a mechanical problem.
+\item It allows us to isolate any inaccurate movement problems as a purely mechanical problem.
 \item We would not have an accumulation of error because of us testing incorrectly.
 \end{enumerate}
 Therefore, we chose to mathematically calculate the degrees that we needed to move the motors rather than testing.\\\\
 A sketch of the derivation of how many degrees to move forward is shown below: %ADD SKETCH HERE% 
-\\
-Therefore:
+\\\\\\\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+%% Prove with Drawing??
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Therefore the degrees were calculated as:
 \begin{verbatim}
 degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_ROTATION
 \end{verbatim}
@@ -237,7 +248,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 %% 3.1 - Position of the robot and size of the maze
 
-\subsection{Variables Used to Define the Position of the Robot in the Maze and the Size of the Maze}
+\subsection{Constants and Variables Used to Define the Position of the Robot in the Maze and the Size of the Maze}
 \begin{itemize}
 \item Two constant that represent the initial position of the robot in the maze were declared. These will be entered when we begin our demo.
 	\begin{verbatim}
@@ -249,12 +260,12 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		int const END_ROW = ; 
 		int const END_COL = ;
 	\end{verbatim}
-\item Two global variables that represent the current position of the robot in the maze were declared. These are  initialized as the starting position. 
+\item Two global variables that represent the current position of the robot in the maze were declared. These are initialized as the starting position. 
 	\begin{verbatim}
 		int currentRow = START_ROW;
 		int currentCol = START_COL;
 	\end{verbatim} 
-\item An array that represents the orientation that the bot has as it enters each cell was defined. The size of the array is four times larger than the product of the maze width and maze height because the maximum amount of times that the robot can go into each cell is four times (worst case scenario).
+\item An array that represents the orientation that the robot has as it enters each cell was defined. The size of the array is four times larger than the product of the maze width and maze height because the maximum amount of times that the robot can go into a cell is four times in the worst case scenario.
 	\begin{verbatim}
 		int entered[MAZE_WIDTH*MAZE_HEIGHT*4];
 		int lastEnteredIdx = 0;
@@ -284,7 +295,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		#define SOUTH 2
 		#define WEST 3
 	\end{verbatim}
-\item A structure named cell was declared and it has five parameters. This track where the walls are, what direction we entered from and whether we have visited the cell.
+\item A structure named cell was declared and it has six parameters. For a given cell, this structure parameterized by where the walls are, whether the robot have visited the cell, and the direction that the robot entered the cell.
 	\begin{verbatim}
 		typedef struct{
    int NWall; 
@@ -304,17 +315,17 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 \subsection{Constants Used for Display}
 \begin{itemize}
-\item Two constants that represent the size of the screen width and height were defined
+\item Two constants that represent the size of the screen width and height were defined.
 	\begin{verbatim}
 		#define SCREEN_HEIGHT 127
 		#define SCREEN_WIDTH 177 
 	\end{verbatim} 
-\item Two constants that represent the each cell's size on the screen were defined
+\item Two constants that represent the single cell's size on the screen were defined.
 	\begin{verbatim}
 		#define CELL_HEIGHT (SCREEN_HEIGHT / MAZE_HEIGHT)
 		#define CELL_WIDTH (SCREEN_WIDTH / MAZE_WIDTH)
 	\end{verbatim} 
-\item Two constants are defined which represent the robot's position in each cell in the screen
+\item Two constants that represent the robot's position in each cell in the screen were defined.
 	\begin{verbatim}
 		#define CELL_HEIGHT_MIDDLE (CELL_HEIGHT / 2)
 		#define CELL_WIDTH_MIDDLE (CELL_WIDTH /2)
@@ -326,13 +337,13 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 \subsection{Constants Used for Moving Mechanism}
 \begin{itemize}
-\item When we calculated the degrees to move the encoder, we had two contributing errors that caused the motors to move less than they needed to. First of all, we were using integer division to find the degrees to move the motors. Therefore, the remainder is truncated and this causes the robot to move less than one cell or less than 90$^{\circ}$. Similarly, the Proportional Integral Derivative (PID) control caused the robot to move less than the desired target. Therefore, three constants were declared which are added to the encoder input values and only needed to be tested once in order to supplement the errors. 
+\item When we calculated the degrees to move the encoder, we had three contributing errors that caused the motors to move less than they needed to. First of all, we were using integer division to find the degrees to move the motors. Therefore, the remainder is truncated and this causes the robot to move less than one cell or less than 90$^{\circ}$. Similarly, the Proportional Integral Derivative (PID) control caused the robot to move less than the desired target. Therefore, three constants were declared which are added to the encoder input values and only needed to be tested once in order to supplement the errors. 
 	\begin{verbatim}
 		float const UNCERTAINTY_STRAIGHT = 23;
 		float const UNCERTAINTY_ROT = 28;
 		float const UNCERTAINTY_READJUST = 35;
 	\end{verbatim} 
-\item Back and forward speed of the motors were defined with constants for simplification of the code. 
+\item Forward and backward speed of the motors were defined with constants for simplification of the code. 
 	\begin{verbatim}
 		int const FORWARD = -100;
 		int const BACKWARD = -FORWARD;
@@ -345,11 +356,11 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		float const DIAMETER_OF_WHEEL = 5.5; // in cm
 		float const CIRCUMFERENCE_OF_WHEEL = PI * DIAMETER_OF_WHEEL;
 	\end{verbatim} 
-\item The amount of time that the bot will drive into the wall in order to readjust was defined. Timing algorithm was used because the flat surface at the front of the robot adjusts the bot as it drives into the wall.
+\item The amount of time that the bot will drive into the wall to readjust was defined. Timing algorithm was used because the flat surface at the front of the robot adjusts the robot as it drives into the wall.
 	\begin{verbatim}
 		int const MILISECS_TO_DRIVE_INTO_WALL = 1100;
 	\end{verbatim} 
-\item A constant that represents how often the robot has to readjust its direction was defined. A global variable that increases every time the robot goes into new cells to count for readjust was also defined.
+\item A constant that represents how often the robot has to readjust was defined. A global variable that increases every time the robot goes into new cells to count for readjust was also defined.
 	\begin{verbatim}
 		int const CELLS_TO_READJUST_AFTER = 3;
 		int timesForwardWithoutReadjust = 0;
@@ -361,7 +372,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 \subsection{Constants Used for Representation of Wall}
 \begin{itemize}
-\item A constant which represent the maximum distance possible between the robot and an object for the robot to consider it a wall.
+\item A constant which represent the maximum distance possible between the robot and an object for the robot to consider it a wall in the current cell.
 	\begin{verbatim}
 		float const DIST_BETWEEN_BOT_AND_WALL = 7.6;
 	\end{verbatim}
@@ -377,7 +388,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 \subsection{Constants Used for Beeping Mechanism}
 \begin{itemize}
-\item A constant which represent the time and the frequency of the beep when the robot found the target
+\item Two constants which represent the time and frequency of the beep when the robot finds the target.
 	\begin{verbatim}
 		int const MILI_TO_BEEP_FOR = 200;
 		int const FREQUENCY = 300;
@@ -390,19 +401,19 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 \subsection{Displaying Function}
 \begin{itemize}
-\item Function for displaying information about the robot's orientation and location on the screen as well as what it knows about the maze. 
+\item Function for displaying information about the robot's orientation and location on the screen. It also displays what it knows about the maze. 
 	\begin{verbatim}
 		void drawInfo(int direction);
 	\end{verbatim}
 \begin{figure}[htp]
-\centering
+\centering 
 \includegraphics[scale=0.57]{images/Software_Flowchart/Drawing_Function.png}
 \caption{Flow Chart for Displaying Function}
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item The local variable direction is passed into the function but it does not return any variable
-	\item Global variables and constants used are
+	\item The local variable direction is passed into the function but it does not return any variable.
+	\item Global variables and constants used are:
 	\begin{verbatim}
 		MAZE_WIDTH     MAZE_HEIGHT
 		CELL_WIDTH     CELL_HEIGHT
@@ -420,7 +431,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 \subsection{Moving Forward Function}
 \begin{itemize}
-\item This function moves the the robot forward exactly one cell. It also stores the cell information in the maze array. Finally, it increments how many cells it has moved without readjust. 
+\item This function moves the the robot forward exactly one cell forward. It also stores the cell information in the maze array. Finally, it increments how many cells it has moved without readjust. 
 	\begin{verbatim}
 		void goFwdCell(int direction);
 	\end{verbatim}
@@ -431,8 +442,8 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \label{}
 \end{figure}	
 	\begin{itemize}
-	\item The local variable direction is passed into the function but it does not return any variable
-	\item Global variables and constants used are
+	\item The local variable direction is passed into the function but it does not return any variable.
+	\item Global variables and constants used are:
 	\begin{verbatim}
 		SIZE_OF_ONE_CELL     CIRCUMFERENCE_OF_WHEEL
 		DRIVE_GEAR_RATIO     ONE_ROTATION     FORWARD
@@ -449,7 +460,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 \subsection{Turning Functions}
 \begin{itemize}
-\item Function for turning right.
+\item Function for turning right 90$^\circ$.
 \begin{verbatim}
 	int Turn90CW(int direction);
 \end{verbatim}
@@ -461,18 +472,18 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \end{figure}
 	\begin{itemize}
 	\item The local variable direction is passed into the function. The function returns the new direction.
-	\item Global constants used are
+	\item Global constants used are:
 	\begin{verbatim}
 		QUARTER_ROTATION     DRIVE_GEAR_RATION
 		FORWARD
 	\end{verbatim}
-	\item Functions used are
+	\item Functions used are:
 	\begin{verbatim}
 		int findRight(int direction);
 		int drawInfo(int direction);
 	\end{verbatim}
 	\end{itemize}
-\item Function for turning left 
+\item Function for turning left 90$^\circ$.
 \begin{verbatim}
 	Turn90CW(int direction);
 \end{verbatim}
@@ -484,12 +495,12 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \end{figure}
 	\begin{itemize}
 	\item The local variable direction is passed into the function. The function returns the new direction.
-	\item Global constants used are
+	\item Global constants used are:
 	\begin{verbatim}
 		QUARTER_ROTATION     DRIVE_GEAR_RATION
 		FORWARD
 	\end{verbatim}
-	\item Functions used are
+	\item Functions used are:
 	\begin{verbatim}
 		int findLeft(int direction);
 		int drawInfo(int direction);
@@ -502,7 +513,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 \subsection{Wall Detecting Function}
 \begin{itemize}
-\item Function that returns whether or not there is a wall in front of the bot.
+\item Function that returns whether or not there is a wall in front of the robot.
 	\begin{verbatim}
 		int thereIsWall();
 	\end{verbatim}
@@ -513,8 +524,8 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item Very simple function that returns $1$ if the sensor detects the wall
-	\item Global constant used is
+	\item Very simple function that returns $1$ if the sensor detects the wall.
+	\item Global constant used is:
 	\begin{verbatim}
 		DIST_BETWEEN_BOT_AND_WALL
 	\end{verbatim}
@@ -532,7 +543,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 	\end{verbatim}
 \begin{figure}[htp]
 \centering
-\includegraphics[scale=0.4]{images/Software_Flowchart/writeWall.png}
+\includegraphics[scale=0.44]{images/Software_Flowchart/writeWall.png}
 \caption{Flow Chart for Storing Data Function}
 \label{}
 \end{figure}
@@ -546,7 +557,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		PRESENT
 		LAST_MAZE_HEIGHT_INDEX     LAST_MAZE_WIDTH_INDEX
 	\end{verbatim}
-	\item Function used is
+	\item Function used is:
 	\begin{verbatim}
 		int thereIsWall();
 	\end{verbatim}
@@ -589,7 +600,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item Global constants used are
+	\item Global constants used are:
 	\begin{verbatim}
 		NORTH     SOUTH     EAST     WEST
 	\end{verbatim}
@@ -612,7 +623,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item Global variables and constants used are
+	\item Global variables and constants used are:
 	\begin{verbatim}
 		NORTH     SOUTH     EAST     WEST
 		PRESENT     UNKNOWN     NOT_PRESENT
@@ -647,8 +658,8 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item The local variable direction is passed into the function but it does not return any variable
-	\item Global variables and constants used are
+	\item The local variable direction is passed into the function but it does not return any variable.
+	\item Global variables and constants used are:
 	\begin{verbatim}
 		SIZE_OF_ONE_CELL     CIRCUMFERENCE_OF_WHEEL
 		DRIVE_GEAR_RATIO     ONE_ROTATION     UNCERTAINTY_READJUST
@@ -657,31 +668,31 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		Maze[][].NWall     Maze[][].SWall     Maze[][].EWall     Maze[][].WWall
 		timesForwardWithoutReadjust
 	\end{verbatim}
-	\item Functions used are
+	\item Functions used are:
 	\begin{verbatim}
 		int Turn90CW(int direction);
 		int Turn90CCW(int direction);
 	\end{verbatim}
 	\end{itemize}
-\item Function that decides which direction to readjust in using the data collected in array. Once the function decides the direction to readjust in, it calls that function.
+\item Function that decides which direction to readjust using the data collected in the array. Once the function decides the direction to readjust in, it calls that function.
 	\begin{verbatim}
 		void reAdjustWayBack(int direction);
 	\end{verbatim}
 \begin{figure}[htp]
 \centering
-\includegraphics[scale=0.46]{images/Software_Flowchart/reAdjustWayBack.png}
+\includegraphics[scale=0.47]{images/Software_Flowchart/reAdjustWayBack.png}
 \caption{Flow Chart for Readjusting using walls detected}
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item The local variable direction is passed into the function but it does not return any variable
-	\item Global variable and constants used are
+	\item The local variable direction is passed into the function but it does not return any variable.
+	\item Global variable and constants used are:
 	\begin{verbatim}
 		timesForwardWithoutReadjust
 		CELLS_TO_READJUST_AFTER
 		PRESENT
 	\end{verbatim}
-	\item Functions used are
+	\item Functions used are:
 	\begin{verbatim}
 		thereIsWall();
 		reAdjustCW(int direction);
@@ -705,17 +716,17 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 	\end{verbatim}
 \begin{figure}[htp]
 \centering
-\includegraphics[scale=0.45]{images/Software_Flowchart/MovementWithSensor.png}
+\includegraphics[scale=0.47]{images/Software_Flowchart/MovementWithSensor.png}
 \caption{Flow Chart for Movement Function}
 \label{}
 \end{figure}
 	\begin{itemize}
 	\item The local variable direction is passed into the function and it returns a new variable direction.
-	\item Global constants used are
+	\item Global constants used are:
 	\begin{verbatim}
 		NOT_PRESENT     UNKNOWN
 	\end{verbatim}
-	\item Functions used are
+	\item Functions used are: 
 	\begin{verbatim}
 		writewall(int direction);
 		reAdjustWayBack(int direction);
@@ -734,7 +745,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 \subsection{Functions for Returning Algorithm}
 \begin{itemize}
-\item Function that deletes the duplicates from the array which saved up how the robot entered each cell. For example, if the robot moved two opposite directions in order, it is not necessary. Therefore, we delete the duplicates from the array
+\item Function that deletes the duplicates from the array which saved up how the robot entered each cell. For example, if the robot moved two opposite directions in order, it is not necessary to follow those directions. Therefore, we delete the duplicates from the array.
  	\begin{verbatim}
 		void deleteDuplicates();
 	\end{verbatim}
@@ -745,7 +756,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item Global variables used:
+	\item Global variables used are:
  		\begin{verbatim}
 			entered[]     lastEnteredIdx
 		\end{verbatim}
@@ -761,13 +772,13 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item Global variables and constants used:
+	\item Global variables and constants used are:
  		\begin{verbatim}
 			entered[]     lastEnteredIdx
 			NORTH     SOUTH     EAST     WEST
 		\end{verbatim}
 	\end{itemize}
-\item Function that takes in the variable direction and goes back to the initial position in the cell with the new array created by two functions above
+\item Function that takes in the variable direction and goes back to the initial position in the cell with the new array created by the two functions above.
  	\begin{verbatim}
 		void goingBackFastestRoute(int direction);
 	\end{verbatim}
@@ -778,12 +789,12 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \label{}
 \end{figure}
 	\begin{itemize}
-	\item Global variables and constants used are
+	\item Global variables and constants used are:
 	\begin{verbatim}
 		entered[]     lastEnteredIdx
 		NORTH     SOUTH     EAST     WEST
 	\end{verbatim}
-	\item Functions used are
+	\item Functions used are:
 	\begin{verbatim}
 		reAdjustWayBack(int direction);	
 		Turn90CW(int direction);
@@ -798,17 +809,16 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 
 \subsection{Main Function}
 \begin{itemize}
-\item More than ten functions were declared for simplicity of the main function. This function sums up all smaller functions
+\item More than ten functions were declared for simplicity of the main function. This function calls all the smaller functions.
 	\begin{verbatim}
 		task main()
 	\end{verbatim}
-
 	\begin{itemize}
 	\item A variable that represents current direction of the robot was declared. This is initialized as north as this is the orientation of the robot when it first enters the maze.
 	\begin{verbatim}
 		int direction = NORTH;
 	\end{verbatim}
-	\item Global variables and constants used are
+	\item Global variables and constants used are:
 	\begin{verbatim}
 		MAZE_WIDTH     MAZE_HEIGHT
 		entered[]     lastEnteredIdx
@@ -819,7 +829,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		LAST_MAZE_HEIGHT_INDEX     LAST_MAZE_WIDTH_INDEX 
 		currentCol     currentRow    				
 	\end{verbatim}
-	\item Functions used are
+	\item Functions called are:
 	\begin{verbatim}
 		MovmentWithSensor(int direction);
 		deleteDuplicates();
@@ -828,7 +838,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		drawInfo(int direction);
 	\end{verbatim}
 	\end{itemize}
-\item Flow chart is on the next page
+\item Flow chart is on the next page.
 \end{itemize}
 \begin{figure}[htp]
 \centering
@@ -1461,11 +1471,11 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 \end{verbatim}
 \end{linenumbers}
 \newpage
-\section{Brick Inventory Listing}
-\subsection{Brickset Inventory 45560-1}
-This is done separately from the Report. Following pages show the Brickset Inventory 45560-1
-\newpage 
-\subsection{Brickset Inventory 45544-1}
-This is done separately from the Report. Following pages show the Brickset Inventory 45544-1
+\subsection{Brickset Inventory}
+This is done separately from the Report.\\\\
+There were some extra parts in the locker, but we did not added them to our inventory because the pieces were not originally in the brickset.\\\\
+We found the extra pieces in the randomly assigned locker (Locker number 13).\\\\
+Following pages show the Brickset Inventory.
+
 
 \end{document}
