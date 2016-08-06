@@ -224,14 +224,19 @@ The degrees needed to move one cell forward could have been calculated by consta
 \end{enumerate}
 Therefore, we chose to mathematically calculate the degrees that we needed to move the motors rather than testing.\\\\
 A sketch of the derivation of how many degrees to move forward is shown below: %ADD SKETCH HERE% 
-\\\\\\\\
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-
-%% Prove with Drawing??
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=0.3]{images/Movement_Distance.png}
+\caption{Proof of Degrees Formula}
+\label{}
+\end{figure}
+\begin{itemize}
+\item $d =$ diameter of the wheel
+\item $c = d \times \pi = $ circumference of the wheel
+\item $l =$ distance of one cell
+\item $5$ rotations of the gear attached to the motor rotates the wheel once
+\item The ratio between the distance of one cell and the circumference of the wheel is $\frac{l}{c}$
+\end{itemize}
 Therefore the degrees were calculated as:
 \begin{verbatim}
 degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_ROTATION
@@ -477,7 +482,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		QUARTER_ROTATION     DRIVE_GEAR_RATION
 		FORWARD
 	\end{verbatim}
-	\item Functions used are:
+	\item Functions called are:
 	\begin{verbatim}
 		int findRight(int direction);
 		int drawInfo(int direction);
@@ -500,7 +505,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		QUARTER_ROTATION     DRIVE_GEAR_RATION
 		FORWARD
 	\end{verbatim}
-	\item Functions used are:
+	\item Functions called are:
 	\begin{verbatim}
 		int findLeft(int direction);
 		int drawInfo(int direction);
@@ -557,7 +562,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		PRESENT
 		LAST_MAZE_HEIGHT_INDEX     LAST_MAZE_WIDTH_INDEX
 	\end{verbatim}
-	\item Function used is:
+	\item Function called is:
 	\begin{verbatim}
 		int thereIsWall();
 	\end{verbatim}
@@ -668,7 +673,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		Maze[][].NWall     Maze[][].SWall     Maze[][].EWall     Maze[][].WWall
 		timesForwardWithoutReadjust
 	\end{verbatim}
-	\item Functions used are:
+	\item Functions called are:
 	\begin{verbatim}
 		int Turn90CW(int direction);
 		int Turn90CCW(int direction);
@@ -692,7 +697,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		CELLS_TO_READJUST_AFTER
 		PRESENT
 	\end{verbatim}
-	\item Functions used are:
+	\item Functions called are:
 	\begin{verbatim}
 		thereIsWall();
 		reAdjustCW(int direction);
@@ -726,7 +731,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 	\begin{verbatim}
 		NOT_PRESENT     UNKNOWN
 	\end{verbatim}
-	\item Functions used are: 
+	\item Functions called are: 
 	\begin{verbatim}
 		writewall(int direction);
 		reAdjustWayBack(int direction);
@@ -794,7 +799,7 @@ degrees = (SIZE_OF_ONE_CELL / CIRCUMFERENCE_OF_WHEEL) * DRIVE_GEAR_RATIO * ONE_R
 		entered[]     lastEnteredIdx
 		NORTH     SOUTH     EAST     WEST
 	\end{verbatim}
-	\item Functions used are:
+	\item Functions called are:
 	\begin{verbatim}
 		reAdjustWayBack(int direction);	
 		Turn90CW(int direction);
